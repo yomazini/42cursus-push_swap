@@ -5,10 +5,35 @@
 
 Bubble sort
 insertion sort
-merge sort
 selection sort
-
+merge sort
+Radix sort
 */
+
+int *selection_sort(int *arr, int len)
+{
+	int i = 0;
+	int j, min, temp;
+	while(i < len)
+	{
+		j = i + 1;
+		min = i;
+		while(j < len)
+		{
+			if(arr[j] < arr[min])
+				min = j;
+			j++;
+		}
+		if(min != i)
+		{
+			temp = arr[min];
+			arr[min] = arr[i];
+			arr[i] = temp;
+		}
+		i++;
+	}
+	return (arr);
+}
 
 int	*bubble_sort(int *arr, int len)
 {
@@ -55,14 +80,14 @@ int *insertion_sort(int *arr, int len)
 
 int main()
 {
-    int arr[] = {5, 6, 8, 9, 1, 10, 78, 2};
+    int arr[] = {5, 6, 8, 9, 1, 10, 78, 2, -9};
     int len = sizeof(arr) / sizeof(arr[0]); 
-    int *buble_sort_arr = bubble_sort(arr, len);
-    int *insetion_sort_arr = insertion_sort01(arr ,len);
+   // int *buble_sort_arr = bubble_sort(arr, len);
+    int *sort_arr = selection_sort(arr ,len);
 	int i = 0;
 	while (i < len)
 	{
-		printf("%d\n", insetion_sort_arr[i]);
+		printf("%d\n", sort_arr[i]);
 		i++;
 	}
     return 0;

@@ -1,0 +1,1 @@
+//TODO: notes from luna in all linked list + Trace 
