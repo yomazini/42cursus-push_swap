@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:09:05 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/16 21:45:55 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/16 22:49:18 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_stack_node
 // split and join 
 
 // stack creation 
-void	stack_initilize(t_stack_node **a, char **av, int second_ac);
+void	init_stack_a(t_stack_node **a, char **av);
 void	initilize_nodes(t_stack_node *a, t_stack_node *b);
 void	curreent_position();
 
