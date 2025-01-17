@@ -30,3 +30,5 @@ int	main(int ac, char **av)
 	free_stack(&a);
 	return (0);
 }
+
+//TODO: must get details of else in cost analysis; what mwaning of it
