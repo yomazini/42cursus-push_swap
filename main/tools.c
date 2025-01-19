@@ -228,21 +228,27 @@ void	ft_swap_node(t_stack_node **head)
 void	ft_rotate_node(t_stack_node **head)
 {
 	t_stack_node *last;
-	t_stack_node *first_head;
-	first_head = head;
 	if (!*head || !(*head)->next)
 		return ;
 	last = last_node(head);
 	last->next = (*head);
-	first_head = first_head->next;
-	(*head)->next = NULL;
-	(*head)->previous = last;
-
+	(*head) = (*head)->next;
+	(*head)->previous = NULL;
+	last->next->previous = last;
+	last->next->next = NULL;
 }
 
 void	ft_rev_rotate_node(t_stack_node **head)
 {
-
+	t_stack_node *last;
+	if (!*head || !(*head)->next)
+		return;
+	last = last_node(head);
+	last->previous->next = NULL;
+	last->previous = NULL;
+	last->next = (*head);
+	(*head) = last;
+	last->next->previous = last;
 }
 
 //finish all sa sb ss
