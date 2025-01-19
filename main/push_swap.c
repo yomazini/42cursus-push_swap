@@ -21,9 +21,6 @@ int	main(int ac, char **av)
 			sa(&a, 0);
 		else if (stack_len(a) == 3)
 			sort_three(&a);
-			// DO IT later;
-		// else if (stack_len(a) == 5)
-		// 	sort_five(&a);
 		else
 			sort_stack(&a, &b);
 	}
