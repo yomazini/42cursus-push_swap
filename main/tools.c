@@ -196,6 +196,8 @@ t_stack_node *find_max_node(t_stack_node *stack)
 
 
 
+
+
 //TODO: this pomodoro (finish all moves.     <rotate &&  rev_rotate>   < | sa sb ss | ra rb rr | rra rrb rrr | >)
 
 void	ft_swap_node(t_stack_node **head)
@@ -388,3 +390,263 @@ void	append_node(t_stack_node **stack, int n)
 		node->previous = last;
 	}
 }
+/*
+	define two functions pb && pa && push function
+*/
+
+void	push(t_stack_node **src, t_stack_node **dst)
+{
+	t_stack_node *push_node;
+	if (!(*src))
+		return ;
+	push_node = *src;
+	*src = (*src)->next;
+	if (*src)
+		(*src)->previous = NULL;
+	push_node->previous = NULL;
+
+	if (!(*dst))
+	{
+		(*dst) = push_node;
+		(*dst)->next = NULL;
+	}
+	else
+	{
+		push_node->next = (*dst);
+		push_node->next->previous = push_node;
+		*dst = push_node;
+	}
+}
+
+void	pa(t_stack_node **a, t_stack_node **b, int testing)
+{
+	push(a,b);
+	if (!testing)
+		ft_putstr("pa\n");
+}
+
+void	pb(t_stack_node **a, t_stack_node **b, int testing)
+{
+	push(b,a);
+	if (!testing)
+		ft_putstr("pb\n");
+}
+
+/*
+	*-------------------*  *----------------------*  *----------------------*
+*/
+
+// now all the functions of the Turk algo 
+
+// I/ init_a_to_b functions {2Pomodoro}
+
+
+/*
+	void	init_nodes_a(t_stack_node *a, t_stack_node *b) //Define a function that combines all the functions needed to prepare stack `a`, ready for our pushing and sorting. These functions set the data inside the node's structure
+
+	{
+	current_index(a);
+	current_index(b);
+	set_target_a(a, b);
+	cost_analysis_a(a, b);
+	set_cheapest(a);
+	}
+
+	finish also settarget b; 
+*/
+
+void	sort_stack(t_stack_node **a, t_stack_node **b)
+{
+	int len;
+
+	len = len_stack(a);
+	if (len-- > 3 && !stack_sorted(a))
+		pb(a,b,0);
+	if (len-- > 3 && !stack_sorted(a))
+		pb(a,b,0);
+	while (len-- && !stack_sorted(a))
+	{
+		init_node_a(a, b);
+		move_a_2_b(a,b);
+	}
+	sort_three(a);
+	while(*b)
+	{
+		init_node_b(a,b);
+		move_b_2_a(a,b);
+	}
+	curreent_position(a);
+	move_min_to_top(a);
+}
+void	init_node_a(a, b)
+{
+	currrent_index(a);
+	currrent_index(b);
+	set_target_a(a);
+	cost_analysis_a(a,b);
+	set_cheapest(a);
+}
+
+
+
+// current_index | set_target_a | cost_analysis_a | set_cheapest | 
+
+void	current_index(t_stack_node *stack)
+{
+	int i;
+	int median;
+
+	i = 0;
+	median = len_stack(stack)/2;
+	while(stack)
+	{
+		stack->indexing = i;
+		if (!stack)
+			return;
+		if (i <= median)
+			stack->above_median_line = 1;
+		else
+			stack->above_median_line = 0;
+		stack = stack->next;
+		i++;
+	}
+}
+
+void	set_target_a(t_stack_node *a, t_stack_node *b)
+{
+	t_stack_node *current_b;
+	t_stack_node *target_node;
+	long best_match_index;
+
+	while(a)
+	{
+		best_match_index = LONG_MAX;
+		current_b = b;
+		while (current_b)
+		{
+			if (a->value > current_b->value && current_b->value > best_match_index)	
+			{
+				best_match_index = current_b->value;
+				target_node = current_b;
+			}
+			current_b = current_b->next;
+		}
+		if (best_match_index == LONG_MAX)
+			a->target_node = find_max_node(b);
+		else
+			a->target_node = target_node;
+		a = a -> next;
+	}
+}
+
+void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
+{
+	int len_a;
+	int len_b;
+
+	len_a = len_stack(a);
+	len_b = len_stack(b);
+	while(a)
+	{
+		a->push_cost = a->indexing;
+		if(!(a->above_median_line))
+			a->push_cost = len_a - (a->push_cost);
+		if (a->target_node->above_median_line)
+			a->push_cost = a->push_cost + a->target_node->indexing;
+		else
+			a->push_cost = a->push_cost + len_b - (a->target_node->indexing);
+		a = a->indexing;
+	}
+}
+void	set_cheapest_node(t_stack_node *stack)
+{
+	t_stack_node *cheapest_node;
+	long cheapest_value;
+
+	cheapest_node = stack;
+	if (!stack )
+		return;
+	cheapest_value = LONG_MAX;
+	while(stack)
+	{
+		if (stack->push_cost < cheapest_value)
+		{
+			cheapest_node = stack;
+			cheapest_value = stack->push_cost;
+		}
+		stack = stack->next; 
+	}
+	cheapest_node->cheapest = 1;
+}
+
+
+void	set_target_a(t_stack_node *a, t_stack_node *b)
+{
+	t_stack_node *target_node;
+	t_stack_node *current_a;
+	long best_match_index;
+
+	best_match_index = LONG_MAX;
+
+	while(b)
+	{
+		while(current_a)
+		{
+			if(current_a->value < b->value && current_a->value < best_match_index)
+			{
+				best_match_index = current_a->next;
+				target_node = current_a;
+			}
+			current_a = current_a->next;
+		}
+		if (best_match_index == LONG_MAX)
+			b->target_node = find_min_node(a);
+		else
+			b->target_node = target_node;
+
+		b = b->next;
+	}
+}
+
+t_stack_node *get_chepest(t_stack_node *stack)
+{
+	if (!stack)
+		return NULL;
+	while(stack)
+	{
+		if(stack->cheapest)
+			return stack;
+		stack = stack->next;
+	}
+	return NULL;
+}
+
+void	prep_for_push(t_stack_node **stack, t_stack_node *top_node, char which_stack)
+{
+	
+	while(*stack != top_node)
+	{
+		if (which_stack == 'a')
+		{
+			if (top_node->above_median_line)
+				ra(stack,0);
+			else
+				rra(stack,0);
+		}
+		else if (which_stack == 'b')
+		{
+			if (top_node->above_median_line)
+				rb(stack, 0);
+			else
+				rrb(stack, 0);
+		}
+	}
+
+}
+
+
+// // I/ init_b_to_a functions {1Pomodoro}
+
+/*
+	// set_target_b | and others stay the same 
+*/
