@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 17:24:44 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:41:27 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	current_index(t_stack_node *stack)
 	}
 }
 
-void	init_node_a(a, b)
+void	init_node_a(t_stack_node *a, t_stack_node *b)
 {
-	currrent_index(a);
-	currrent_index(b);
+	current_index(a);
+	current_index(b);
 	set_target_a(a, b);
 	cost_analysis_a(a, b);
-	set_cheapest(a);
+	set_cheapest_node(a);
 }

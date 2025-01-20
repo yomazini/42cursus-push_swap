@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 21:51:00 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:20:26 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	move_b_2_a(t_stack_node **a, t_stack_node **b)
 	pb(a, b, 0);
 }
 
-void	sort_stack(t_stack_node **a, t_stack_node **b)
+void	turk_sort(t_stack_node **a, t_stack_node **b)
 {
 	int	len;
 

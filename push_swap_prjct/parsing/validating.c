@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 17:17:58 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:21:03 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ long	ft_atol(char *str, t_stack_node **a)
 	}
 	while (str[i])
 	{
-		res = res * 10 + str[i] - '0';
+		res = res *10 + str[i] - '0';
 		i++;
 	}
 	return (sign * res);

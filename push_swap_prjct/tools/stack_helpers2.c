@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 17:37:52 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:35:17 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	init_stack_a(t_stack_node **a, char **av)
 		if (nmr < INT_MIN || nmr > INT_MAX)
 			free_error(a);
 		number = nmr;
-		if (duplicate_checker(*a, number))
+		if (error_duplicate(*a, number))
 			free_error(a);
 		append_node(a, number);
 		i++;

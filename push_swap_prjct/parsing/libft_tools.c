@@ -6,13 +6,13 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:31:13 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 15:36:33 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:47:03 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	size_t	i;
 
@@ -37,7 +37,7 @@ int	stack_length(t_stack_node *stack)
 	return (i);
 }
 
-t_stack_node	*last_node(t_stack_node *stack)
+t_stack_node	*last_node(t_stack_node **stack)
 {
 	if (!stack)
 		return (NULL);

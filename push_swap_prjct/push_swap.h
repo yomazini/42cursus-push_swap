@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 22:02:07 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:38:28 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <limits.h>
+# include <stdlib.h>
 //Must delete this
 # include <stdio.h>
 // # include <fcntl.h>
@@ -32,7 +33,7 @@ typedef struct s_stack_node
 
 //libft_tools.c
 
-size_t			ft_strlen(const char *s);
+int				ft_strlen(const char *s);
 int				stack_length(t_stack_node *stack);
 t_stack_node	*last_node(t_stack_node *stack);
 int				ft_atoi(const char *str);
@@ -76,7 +77,7 @@ void			set_cheapest_node(t_stack_node *stack);
 void			cost_analysis_a(t_stack_node *a, t_stack_node *b);
 void			set_target_a(t_stack_node *a, t_stack_node *b);
 void			current_index(t_stack_node *stack);
-void			init_node_a(a, b);
+void	init_node_a(t_stack_node *a, t_stack_node *b);
 
 // initialiase_b_2_a.c
 void			init_nodes_b(t_stack_node *a, t_stack_node *b);
@@ -103,7 +104,7 @@ void			rotate_a_n_b(t_stack_node **a, t_stack_node **b,
 					t_stack_node *cheapest_node);
 void			rev_rotate_a_n_b(t_stack_node **a, t_stack_node **b,
 					t_stack_node *cheapest_node);
-void			sort_stack(t_stack_node **a, t_stack_node **b);
+void			turk_sort(t_stack_node **a, t_stack_node **b);
 void			move_a_2_b(t_stack_node **a, t_stack_node **b);
 void			move_b_2_a(t_stack_node **a, t_stack_node **b);
 

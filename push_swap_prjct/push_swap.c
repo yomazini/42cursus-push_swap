@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 15:25:10 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 22:35:50 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	main(int ac, char **av)
 		return (1);
 	else if (ac == 2)
 		av = ft_split(av[1], ' ');
-	prep_stack_a(&a, av + 1);
+	init_stack_a(&a, av + 1);
 	if (!stack_sorted(a))
 	{
 		if (stack_length(a) == 2)
 			sa(&a, 0);
 		else if (stack_length(a) == 3)
-			three_sort(&a);
+			sort_three(&a);
 		else
 			turk_sort(&a, &b);
 	}
-	clean_stack(&a);
+	free_stack(&a);
 	return (0);
 }
