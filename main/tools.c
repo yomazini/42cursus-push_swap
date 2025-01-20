@@ -643,10 +643,3 @@ void	prep_for_push(t_stack_node **stack, t_stack_node *top_node, char which_stac
 	}
 
 }
-
-
-// // I/ init_b_to_a functions {1Pomodoro}
-
-/*
-	// set_target_b | and others stay the same 
-*/
