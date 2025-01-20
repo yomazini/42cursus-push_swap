@@ -308,7 +308,7 @@ void	rb(t_stack_node **b, int testing)
 		ft_putstr("rb\n");
 }
 
-void	rr(t_stack_node **a, int testing)
+void	rr(t_stack_node **a, t_stack_node **b, int testing)
 {
 	ft_rotate_node(*a);
 	ft_rotate_node(*b);
@@ -638,15 +638,41 @@ t_stack_node *get_chepest(t_stack_node *stack)
 void	rotate_a_n_b(t_stack_node **a, t_stack_node **b, t_stack_node *cheapest_node)
 {
 	while ((cheapest_node->target_node != (*b) && (*a) != cheapest_node)
-		rr(a, b, 0);
+		rr(*a, *b, 0);
 	current_index(*a);
 	current_index(*b);
 }
 
+void	rev_rotate_a_n_b(t_stack_node **a, t_stack_node **b, t_stack_node *cheapest_node)
+{
+	while(cheapest_node->target_node != (*b) && (*a) != cheapest_node)
+		rrr(a, b, 0)
+	current_index(*a);
+	current_index(*b);
+}
+
+void	move_a_2_b(t_stack_node **a, t_stack_node **b)
+{
+	t_stack_node *cheapest_node;
+
+	cheapest_node = cheapes(*a);
+	if (cheapest_node->above_median_line && cheapest_node->target_node->above_median_line)
+		rotate_a_n_b(a, b, cheapest_node);
+	else if(!(cheapest_node->above_median_line && cheapest_node->target_node->above_median_line))
+		rev_rotate_a_n_b(a, b, cheapest_node);
+	prep_for_push(a, cheapest_node, 'a');
+	prep_for_push(b, cheapest_node, 'b');
+	pb(b, a, 0);
+}
+
+void	move_b_2_a(t_stack_node **a, t_stack_node **b)
+{
+	prep_for_push(a,(*b)->target_node, 'a');
+	pb(a, b, 0);
+}
 
 void	prep_for_push(t_stack_node **stack, t_stack_node *top_node, char which_stack)
 {
-	
 	while(*stack != top_node)
 	{
 		if (which_stack == 'a')

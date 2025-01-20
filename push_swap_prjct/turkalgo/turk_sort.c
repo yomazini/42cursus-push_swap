@@ -6,29 +6,53 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 20:03:31 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/20 21:51:00 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-//rotate_a_n_b
-void	rotate_a_n_b(t_stack_node **a, t_stack_node **b)
+void	rotate_a_n_b(t_stack_node **a,
+						t_stack_node **b,
+						t_stack_node *cheapest_node)
 {
-	while ((*a)->target_node != )
-	{
-		/* code */
-	}
-	
+	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
+		rr(a, b, 0);
+	current_index(*a);
+	current_index(*b);
 }
-//rev_rotate_a_n_b
 
-// move_a_2_b
+void	rev_rotate_a_n_b(t_stack_node **a,
+						t_stack_node **b,
+						t_stack_node *cheapest_node)
+{
+	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
+		rrr(a, b, 0);
+	current_index(*a);
+	current_index(*b);
+}
 
-// move_b_2_a
+void	move_a_2_b(t_stack_node **a, t_stack_node **b)
+{
+	t_stack_node	*cheapest_node;
 
+	cheapest_node = cheapes(*a);
+	if (cheapest_node->above_median_line
+		&& cheapest_node->target_node->above_median_line)
+		rotate_a_n_b(a, b, cheapest_node);
+	else if (!(cheapest_node->above_median_line
+			&& cheapest_node->target_node->above_median_line))
+		rev_rotate_a_n_b(a, b, cheapest_node);
+	prep_for_push(a, cheapest_node, 'a');
+	prep_for_push(b, cheapest_node, 'b');
+	pb(b, a, 0);
+}
 
-// sort_stack_turk
+void	move_b_2_a(t_stack_node **a, t_stack_node **b)
+{
+	prep_for_push(a, (*b)->target_node, 'a');
+	pb(a, b, 0);
+}
 
 void	sort_stack(t_stack_node **a, t_stack_node **b)
 {
