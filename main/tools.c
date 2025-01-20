@@ -227,6 +227,17 @@ void	ft_swap_node(t_stack_node **head)
 }
 
 
+void	min_on_top(t_stack_node **a)
+{
+	while((*a)->value != find_min_node((*a)->value))
+	{
+		if (find_min_node(*a)->above_median_line)
+			ra(a, 0);
+		else
+			rra(a, 0);
+	}
+}
+
 void	ft_rotate_node(t_stack_node **head)
 {
 	t_stack_node *last;
@@ -314,7 +325,6 @@ void	rra(t_stack_node **a, int testing)
 	ft_rev_rotate_node(*a);
 	if(!testing)
 		ft_putstr("rra\n");
-
 }
 
 void	rrb(t_stack_node **b, int testing)
@@ -482,7 +492,7 @@ void	init_node_a(a, b)
 {
 	currrent_index(a);
 	currrent_index(b);
-	set_target_a(a);
+	set_target_a(a,b);
 	cost_analysis_a(a,b);
 	set_cheapest(a);
 }
@@ -620,6 +630,19 @@ t_stack_node *get_chepest(t_stack_node *stack)
 	}
 	return NULL;
 }
+
+
+/*
+*/
+
+void	rotate_a_n_b(t_stack_node **a, t_stack_node **b, t_stack_node *cheapest_node)
+{
+	while ((cheapest_node->target_node != (*b) && (*a) != cheapest_node)
+		rr(a, b, 0);
+	current_index(*a);
+	current_index(*b);
+}
+
 
 void	prep_for_push(t_stack_node **stack, t_stack_node *top_node, char which_stack)
 {

@@ -20,6 +20,25 @@ typedef struct s_stack_node
 	struct s_stack_node	*target_node;
 }	t_stack_node;
 
+//push_swap.c
+//main function
+
+//parsing folder --
+
+//libft_tools.c
+size_t	ft_strlen(const char *s);
+int	stack_length(t_stack_node *stack);
+t_stack_node	*last_node(t_stack_node *stack);
+int	ft_atoi(const char *str);
+t_stack_node	*ft_lstnew(void *content);
+
+// split.c file
+int	ft_isdigit(int c);
+char	**ft_split(char *s, char c);
+
+//---
+
+// validating.c
 
 
 
