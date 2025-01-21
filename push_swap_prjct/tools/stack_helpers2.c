@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:21:11 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:07:16 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,20 @@ void	init_stack_a(t_stack_node **a, char **av)
 
 void	set_cheapest_node(t_stack_node *stack)
 {
-	t_stack_node	*cheapest_node;
-	long			cheapest_value;
+	long			cheapest_value; //To store the value of the cheapest node so far
+	t_stack_node	*cheapest_node; //To store a pointer to the cheapest node so far
 
-	cheapest_node = stack;
-	cheapest_value = LONG_MAX;
-	if (!stack)
+	if (!stack) //Check for an empty stack
 		return ;
-	while (stack)
+	cheapest_value = LONG_MAX; //Assign the biggest `long` as the cheapest value so far
+	while (stack) //Loop through every node until the end of the stack is reached, and we find the cheapest node
 	{
-		if (stack->push_cost < cheapest_value)
+		if (stack->push_cost < cheapest_value) //Check if the current node's push cost is cheaper than the cheapest value so far
 		{
-			cheapest_node = stack;
-			cheapest_value = stack->push_cost;
+			cheapest_value = stack->push_cost; //If so, update the cheapest value to the current node's push cost
+			cheapest_node = stack; //Assign the current node as the cheapest node so far
 		}
-		stack = stack->next;
+		stack = stack->next; //Move to the next node for comparison
 	}
-	cheapest_node->cheapest = 1;
+	cheapest_node->cheapest = 1; //After iterating through the stack, if no cheaper node is found than the current, then set the cheapest node's `cheapest` attribut to `true` in the data structure
 }

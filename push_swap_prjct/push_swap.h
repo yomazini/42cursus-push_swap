@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:05:31 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:01:01 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int				error_duplicate(t_stack_node *a, int n);
 void			push(t_stack_node **dst, t_stack_node **src);
 void			pa(t_stack_node **a, t_stack_node **b, int testing);
 void			pb(t_stack_node **a, t_stack_node **b, int testing);
-void			ft_rotate_node(t_stack_node **head);
+void			ft_rotate_node(t_stack_node **stack);
 void			ra(t_stack_node **a, int testing);
 void			rb(t_stack_node **b, int testing);
 void			rr(t_stack_node **a, t_stack_node **b, int testing);
-void			ft_rev_rotate_node(t_stack_node **head);
+void ft_rev_rotate_node(t_stack_node **stack);
 void			rra(t_stack_node **a, int testing);
 void			rrb(t_stack_node **b, int testing);
 void			rrr(t_stack_node **a, t_stack_node **b, int testing);

@@ -6,31 +6,32 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 17:50:44 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:12:46 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
+ void	cost_analysis_a(t_stack_node *a, t_stack_node *b) //Define a functio that analyses the cost of the `a` node along with it's target `b` node, which is the sum of the number of instructions for both the nodes to rotate to the top of their stacks
 {
-    int		len_a;
-    int		len_b;
+	int	len_a; //To store the length of stack `a`
+	int	len_b; //To store the length of stack `b`
 
-    len_a = len_stack(a);
-    len_b = len_stack(b);
-    while (a)
-    {
-        a->push_cost = a->indexing;
-        if (!(a->above_median_line))
-            a->push_cost = len_a - (a->indexing);
-        if (a->target_node->above_median_line)
-            a->push_cost = a->push_cost + a->target_node->indexing;
-        else
-            a->push_cost = a->push_cost + len_b - (a->target_node->indexing);
-        a = a->next;
-    }
+	len_a = len_stack(a);
+	len_b = len_stack(b);
+	while (a) //Loop through each node until the end of the stack is reached
+	{
+		a->push_cost = a->indexing; //Assign the current `a` node's push cost, its' index value
+		if (!(a->above_median_line)) //Check if the above_median data is false, meaning it is below median
+			a->push_cost = len_a - (a->indexing); //If so, update `a` node's push cost to the stack's length - index
+		if (a->target_node->above_median_line) //Check if `a` node's target node `b` has a "true" above median attribute, meaning the target `b` node is above median
+			a->push_cost += a->target_node->indexing; //If so, update `a` node's push cost, the sum of (its current index) + (its target `b` node's index)
+		else //If `a` node is indeed above median and its target `b` node is below median
+			a->push_cost += len_b - (a->target_node->indexing); //Update `a` node's push cost, the sum of (its current index) + (`b` stack's length - its target `b` node's index)
+		a = a->next; //Move to the next `a` node for its cost analysis
+	}
 }
+
 
 void	set_target_a(t_stack_node *a, t_stack_node *b)
 {

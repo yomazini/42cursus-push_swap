@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 19:31:09 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:13:45 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,28 @@ void	prep_for_push(t_stack_node **stack,
 	}
 }
 
-void	move_a_2_b(t_stack_node **a, t_stack_node **b)
+ void	move_a_2_b(t_stack_node **a, t_stack_node **b) //Define a function that prepares the cheapest nodes on top of the stacks for pushing `a` nodes to stack `b`, until there are three nodes left in `a`
 {
-	t_stack_node	*cheapest_node;
+	t_stack_node	*cheapest_node; //To store the pointer to the cheapest `a` node
 
-	cheapest_node = get_cheapest(*a);
-	if (cheapest_node->above_median_line
-		&& cheapest_node->target_node->above_median_line)
+	cheapest_node = get_cheapest(*a); 
+	if (cheapest_node->above_median_line 
+		&& cheapest_node->target_node->above_median_line) //If both the cheapest `a` node and its target `b` node are above the median
 		rotate_a_n_b(a, b, cheapest_node);
-	else if (!(cheapest_node->above_median_line
-			&& cheapest_node->target_node->above_median_line))
-		rev_rotate_a_n_b(a, b, cheapest_node);
-	prep_for_push(a, cheapest_node, 'a');
-	prep_for_push(b, cheapest_node, 'b');
+	else if (!(cheapest_node->above_median_line) 
+		&& !(cheapest_node->target_node->above_median_line)) //If both the cheapest `a` node and its target `b` node are below the median
+		rev_rotate_a_n_b(a, b, cheapest_node); //`rev_rotate_both` will execute if neither nodes are at the top
+	prep_for_push(a, cheapest_node, 'a'); //Ensure the cheapest nodes is at the top, ready for pushing
+	prep_for_push(b, cheapest_node->target_node, 'b'); //Ensure the target node is at the top, ready for pushing
 	pb(b, a, 0);
 }
 
 void	move_b_2_a(t_stack_node **a, t_stack_node **b)
 {
-	prep_for_push(a, (*b)->target_node, 'a');
-	pa(a, b, 0);
+	prep_for_push(a, (*b)->target_node, 'a'); //Ensure `b`'s target `a` node is on top of the stack
+	pa(a, b, 0); 
 }
+
 
 void	turk_sort(t_stack_node **a, t_stack_node **b)
 {
