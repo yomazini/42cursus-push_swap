@@ -6,13 +6,13 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:54 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 18:10:32 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 17:13:21 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	push(t_stack_node **src, t_stack_node **dst)
+void	push(t_stack_node **dst, t_stack_node **src)
 {
 	t_stack_node	*push_node;
 

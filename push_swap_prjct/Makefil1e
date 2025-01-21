@@ -2,12 +2,12 @@ NAME                = push_swap
 
 INC                 = .
 SRC_DIR             = .
-HEADER              = push_swap.h
+HEADER				= push_swap.h
 OBJ_DIR             = obj/
 
 CC                  = cc
-CFLAGS              = -Wall -Werror -Wextra -I$(INC) -MMD
-RM                  = rm -rf
+CFLAGS              = -Wall -Werror -Wextra -I $(INC)
+RM                  = rm -f
 
 MOVES_DIR           =   $(SRC_DIR)/moves/pushing.c \
                         $(SRC_DIR)/moves/rotating.c \
@@ -29,26 +29,24 @@ TURKALGO_DIR        =   $(SRC_DIR)/turkalgo/three_sort.c \
 MAIN_DIR            =   $(SRC_DIR)/push_swap.c
 
 SRCS                = $(MOVES_DIR) $(PARSING_DIR) $(TOOLS_DIR) $(TURKALGO_DIR) $(MAIN_DIR)
+
 OBJS                = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-DEPS                = $(OBJS:.o=.d)
 
 all:                $(NAME)
 
 $(NAME):            $(OBJS) $(HEADER)
 					$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJ_DIR)/%.o:     $(SRC_DIR)/%.c
-					@mkdir -p $(@D)
+$(OBJ_DIR)%.o:      $(SRC_DIR)/%.c
+					mkdir -p $(@D)
 					$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-					$(RM) $(OBJ_DIR)
+					$(RM) -r $(OBJ_DIR)
 
 fclean:             clean
 					$(RM) $(NAME)
 
 re:                 fclean all
 
--include $(DEPS)
-
-.PHONY:             all clean fclean re
+.PHONY:             start all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 18:09:24 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 15:18:21 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	sb(t_stack_node **b, int testing)
 {
 	ft_swap_node(b);
 	if (!testing)
-		ft_putstr("sa\n");
+		ft_putstr("sb\n");
 }
 
 void	ss(t_stack_node **a, t_stack_node **b, int testing)

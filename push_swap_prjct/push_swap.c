@@ -6,11 +6,11 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 22:35:50 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:38:53 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 int	main(int ac, char **av)
 {
@@ -19,10 +19,10 @@ int	main(int ac, char **av)
 
 	a = NULL;
 	b = NULL;
-	if (ac == 1 || (ac == 2 && !ft_strlen(av[1])))
+	if (ac == 1 || (ac == 2 && !av[1][0]))
 		return (1);
 	else if (ac == 2)
-		av = ft_split(av[1], ' ');
+		av = split(av[1], ' ');
 	init_stack_a(&a, av + 1);
 	if (!stack_sorted(a))
 	{

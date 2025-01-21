@@ -6,90 +6,98 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 22:21:03 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:04:38 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-int	syntax_error(char *str)
+int	syntax_error(char *str_n) //Define a funtion to handle syntax errors, and returns `1` for `error` should any of the following conditions are met
 {
-	int	i;
-
-	i = 0;
-	if (!(str[i] != '+' || str[i] != '-' || ft_isdigit(str[i])))
+	if (!(*str_n == '+'
+			|| *str_n == '-'
+			|| (*str_n >= '0' && *str_n <= '9'))) //Check if the first character of the input string does not contain a sign or a digit
 		return (1);
-	if (((str[i] == '+' || str[i] == '-') && !(ft_isdigit(str[i + 1]))))
+	if ((*str_n == '+'
+			|| *str_n == '-')
+		&& !(str_n[1] >= '0' && str_n[1] <= '9')) //Check if the first character of the input string contains a sign, but the second character does not contain a digit
 		return (1);
-	i++;
-	while (str[i])
+	while (*++str_n) //If the error conditions above are passed, pre-increment to point to the next character in the string, and loop until the end of the string is reached
 	{
-		if (!ft_isdigit(str[i]))
+		if (!(*str_n >= '0' && *str_n <= '9')) //Check if the next character in the string is not a digit
 			return (1);
-		i++;
 	}
 	return (0);
 }
 
-int	error_duplicate(t_stack_node *a, int n)
+int	error_duplicate(t_stack_node *a, int n) //Define a function that checks for duplicate input numbers in stack `a`
 {
-	if (!a)
+	if (!a) //Check for an empty stack
 		return (0);
-	while (a)
+	while (a) //Loop until the end of stack `a` is reached
 	{
-		if (a->value == n)
+		if (a->value == n) //Check if the current node's value is equal to `n`. Refer to `init_stack_a()`
 			return (1);
-		a = a->next;
+		a = a->next; //Move to the next node to check for duplicates
 	}
 	return (0);
 }
 
-void	free_error(t_stack_node **a)
+void	free_stack(t_stack_node **stack) //Define a function to free a stack if there are errors
 {
-	free_stack(a);
-	ft_putstr("Error\n");
-	exit(2);
-}
-
-void	free_stack(t_stack_node **stack)
-{
+	t_stack_node	*tmp; //To store the next node in the stack before the current node is freed, because once a node is freed, you can't access its next pointer
 	t_stack_node	*current;
-	t_stack_node	*tmp;
 
-	current = stack;
-	if (!stack)
+	if (!stack) //Check for an empty stack
 		return ;
-	while (current)
+	current = *stack;
+	while (current) //As long as a node exist in the stack
 	{
-		tmp = current->next;
-		current->value = -987652;
-		free(current);
-		current = tmp;
+		tmp = current->next; //Assign to `tmp` the pointer to the next node
+		current->value = 0; //Assigning the node to `0` before freeing is not strictly necessary but it can help catch potential bugs such as memory-leaks and improve debugging
+		free(current); //Free the current node, deallocating the memory occupied by that node
+		current = tmp; //Assign `tmp` as the current first node
 	}
 	*stack = NULL;
 }
 
-long	ft_atol(char *str, t_stack_node **a)
+void	free_error(t_stack_node **a) //Define a function that, upon encountering a unique error, to free the stack and print an error message
 {
-	long	nmr;
-	int		i;
-	int		sign;
-	int		res;
+	free_stack(a);
+	ft_putstr("Error\n");
+	exit(1);
+}
 
-	i = 0;
-	sign = 1;
-	if (ft_strlen(str) > 11)
-		free_error(a);
-	if (str[i] == '+' || str[i] == '-')
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
 	{
-		if (str[i] == '-')
-			sign = -sign;
-		i++;
+		return (1);
 	}
-	while (str[i])
-	{
-		res = res *10 + str[i] - '0';
-		i++;
-	}
-	return (sign * res);
+	return (0);
+}
+long ft_atol(const char *s, t_stack_node **a) 
+{
+    long result = 0;
+    int sign = 1;
+    int i = 0;
+
+    while (s[i] == ' ' || (s[i] >= '\t' && s[i] <= '\r'))
+        i++;
+    if (s[i] == '+' || s[i] == '-') 
+    {
+        if (s[i] == '-')
+            sign = -1;
+        i++;
+    }
+    if (!ft_isdigit(s[i]))
+        free_error(a);
+    while (s[i] >= '0' && s[i] <= '9') 
+    {
+        result = result * 10 + (s[i] - '0');
+        if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
+            free_error(a);
+        i++;
+    }
+    return (result * sign);
 }

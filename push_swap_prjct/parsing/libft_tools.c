@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:31:13 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/20 22:47:03 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 16:20:11 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	stack_length(t_stack_node *stack)
 	return (i);
 }
 
-t_stack_node	*last_node(t_stack_node **stack)
+t_stack_node	*last_node(t_stack_node *stack)
 {
 	if (!stack)
 		return (NULL);
@@ -71,14 +71,16 @@ int	ft_atoi(const char *str)
 	return (res * sym);
 }
 
-t_stack_node	*ft_lstnew(void *content)
-{
-	t_stack_node	*new;
 
-	new = malloc(sizeof(t_stack_node));
-	if (!new)
-		return (NULL);
-	new->value = content;
-	new->next = NULL;
-	return (new);
-}
+
+// t_stack_node	*ft_lstnew(void *content)
+// {
+// 	t_stack_node	*new;
+
+// 	new = malloc(sizeof(t_stack_node));
+// 	if (!new)
+// 		return (NULL);
+// 	new->value = content;
+// 	new->next = NULL;
+// 	return (new);
+// }
