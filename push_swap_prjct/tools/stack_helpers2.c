@@ -6,36 +6,35 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 19:22:22 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 22:15:29 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	append_node(t_stack_node **stack, int n) //Define a function that searches for the last node to append to the linked list
+void	append_node(t_stack_node **stack, int n)
 {
-	t_stack_node	*node; //To store a pointer to the new node to be created with the value `n`
-	t_stack_node	*last_node1; //To store a pointer to the current last node of the stack
+	t_stack_node	*node;
+	t_stack_node	*last_node1;
 
 	if (!stack)
 		return ;
-	node = malloc(sizeof(t_stack_node)); //Allocate memory for the new node
+	node = malloc(sizeof(t_stack_node));
 	if (!node)
 		return ;
-	node->next = NULL; //Set the next pointer of the new node to NULL because it will be the last node in the list
-	node->value = n; //Set the `next` data of of the new node to `n` value
-	node->cheapest = 0; // Initialise chaepest to 0;
-	// other elements in the struct could be initialised as well but for now, this was the only one causing a valgrind issue
-	if (!(*stack)) //Check if the stack is empty or currently pointing to NULL, indicating a first node needs to be found
+	node->next = NULL;
+	node->value = n;
+	node->cheapest = 0;
+	if (!(*stack))
 	{
-		*stack = node; //If empty, update the pointer *stack to point to the node, effectively making it the new head of the linked list
-		node->previous = NULL; //Set the head node's previous pointer to NULL as it's the first node
+		*stack = node;
+		node->previous = NULL;
 	}
-	else //If the stack is not empty, it means there are existing nodes in the linked list
+	else
 	{
-		last_node1 = last_node(*stack); //In which case, find the last node
-		last_node1->next = node; //Append the new node to the last node
-		node->previous = last_node1; //Update the previous pointer of the new node and complete the appending
+		last_node1 = last_node(*stack);
+		last_node1->next = node;
+		node->previous = last_node1;
 	}
 }
 
@@ -61,24 +60,44 @@ void	init_stack_a(t_stack_node **a, char **av)
 	}
 }
 
-
-
-void	set_cheapest_node(t_stack_node *stack) //Define a function that sets a node's `cheapest` attribute as `true` or `false`
+void	set_cheapest_node(t_stack_node *stack)
 {
-	long			cheapest_value; //To store the value of the cheapest node so far
-	t_stack_node	*cheapest_node; //To store a pointer to the cheapest node so far
+	long			cheapest_value;
+	t_stack_node	*cheapest_node;
 
-	if (!stack) //Check for an empty stack
+	if (!stack)
 		return ;
-	cheapest_value = LONG_MAX; //Assign the biggest `long` as the cheapest value so far
-	while (stack) //Loop through every node until the end of the stack is reached, and we find the cheapest node
+	cheapest_value = LONG_MAX;
+	while (stack)
 	{
-		if (stack->push_cost < cheapest_value) //Check if the current node's push cost is cheaper than the cheapest value so far
+		if (stack->push_cost < cheapest_value)
 		{
-			cheapest_value = stack->push_cost; //If so, update the cheapest value to the current node's push cost
-			cheapest_node = stack; //Assign the current node as the cheapest node so far
+			cheapest_value = stack->push_cost;
+			cheapest_node = stack;
 		}
-		stack = stack->next; //Move to the next node for comparison
+		stack = stack->next;
 	}
-	cheapest_node->cheapest = 1; //After iterating through the stack, if no cheaper node is found than the current, then set the cheapest node's `cheapest` attribut to `true` in the data structure
+	cheapest_node->cheapest = 1;
+}
+
+void	rotate_a_n_b(t_stack_node **a,
+						t_stack_node **b,
+						t_stack_node *cheapest_node)
+{
+	while (*b != cheapest_node->target_node
+		&& *a != cheapest_node)
+		rr(a, b, 0);
+	current_index(*a);
+	current_index(*b);
+}
+
+void	rev_rotate_a_n_b(t_stack_node **a,
+						t_stack_node **b,
+						t_stack_node *cheapest_node)
+{
+	while (*b != cheapest_node->target_node
+		&& *a != cheapest_node)
+		rrr(a, b, 0);
+	current_index(*a);
+	current_index(*b);
 }

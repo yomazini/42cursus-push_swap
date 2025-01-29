@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 19:31:42 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 22:10:55 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,70 @@
 
 void	current_index(t_stack_node *stack)
 {
-	int	i; //To store the index of the current node
-	int	median; //To store the position of the median of the stack
+	int	i;
+	int	median;
 
-	i = 0; //The first index is `0`
-	if (!stack) //Check for am empty stack
+	i = 0;
+	if (!stack)
 		return ;
-	median = len_stack(stack) / 2; //Calculate the median by dividing the length of a stack by 2
-	while (stack) //Loop through all the nodes until the end of the stack is reached
+	median = len_stack(stack) / 2;
+	while (stack)
 	{
-		stack->indexing = i; //Assign the current index value to the current node
-		if (i <= median) //Check whether the current node is above or below the median
-			stack->above_median_line = 1; //If above, set the above_median data of the node to true
+		stack->indexing = i;
+		if (i <= median)
+			stack->above_median_line = 1;
 		else
-			stack->above_median_line = 0; //If below, set the above_median data of the node to false
-		stack = stack->next; //Move to the next node for indexing
-		++i; //Increment the index value to set the next node with
+			stack->above_median_line = 0;
+		stack = stack->next;
+		++i;
 	}
 }
-
 
 void	set_target_a(t_stack_node *a, t_stack_node *b)
 {
-	t_stack_node	*current_b; //To store the pointer to the current node in stack `b` and iterate through each node following
-	t_stack_node	*target_node; //To store the pointer to the target node in stack `b`
-	long			best_match_index; //In this case, the best match indexe stores the value of the "closest smaller number" so far
+	t_stack_node	*current_b;
+	t_stack_node	*target_node;
+	long			best_match_index;
 
-	while (a) //As long as we have nodes in stack `a`
+	while (a)
 	{
-		best_match_index = LONG_MIN; //Assign the smallest `long` as the closest smaller number so far
-		current_b = b; //Assign to `current_b` the current `b` node
-		while (current_b) //Iteratively search through all the nodes in stack `b` until the end of the stack is reached
+		best_match_index = LONG_MIN;
+		current_b = b;
+		while (current_b)
 		{
-			if (current_b->value < a->value 
-				&& current_b->value > best_match_index) //Check if `b` node is smaller than `a` node && bigger than the closest smaller number so far
+			if (current_b->value < a->value
+				&& current_b->value > best_match_index)
 			{
-				best_match_index = current_b->value; //If so, update the value of the closest smaller number so far
-				target_node = current_b; //Assign the current `b` node as the `target_node`
+				best_match_index = current_b->value;
+				target_node = current_b;
 			}
-			current_b = current_b->next; //Move to the next `b` node for comparison, until a "closer smaller number" is found
+			current_b = current_b->next;
 		}
-		if (best_match_index == LONG_MIN) //Check if the LONG_MIN hasn't changed, it means we haven't found anything smaller
-			a->target_node = find_max_node(b); //If so, find the biggest `nbr` and set this as the target node
+		if (best_match_index == LONG_MIN)
+			a->target_node = find_max_node(b);
 		else
-			a->target_node = target_node; //If no "closer smaller number" is found, and the best match has changed
-		a = a->next; //Move to the next `a` node to find it's target `b` node
+			a->target_node = target_node;
+		a = a->next;
 	}
 }
- void	cost_analysis_a(t_stack_node *a, t_stack_node *b) //Define a functio that analyses the cost of the `a` node along with it's target `b` node, which is the sum of the number of instructions for both the nodes to rotate to the top of their stacks
+
+void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
 {
-	int	len_a; //To store the length of stack `a`
-	int	len_b; //To store the length of stack `b`
+	int	len_a;
+	int	len_b;
 
 	len_a = len_stack(a);
 	len_b = len_stack(b);
-	while (a) //Loop through each node until the end of the stack is reached
+	while (a)
 	{
-		a->push_cost = a->indexing; //Assign the current `a` node's push cost, its' index value
-		if (!(a->above_median_line)) //Check if the above_median data is false, meaning it is below median
-			a->push_cost = len_a - (a->indexing); //If so, update `a` node's push cost to the stack's length - index
-		if (a->target_node->above_median_line) //Check if `a` node's target node `b` has a "true" above median attribute, meaning the target `b` node is above median
-			a->push_cost += a->target_node->indexing; //If so, update `a` node's push cost, the sum of (its current index) + (its target `b` node's index)
-		else //If `a` node is indeed above median and its target `b` node is below median
-			a->push_cost += len_b - (a->target_node->indexing); //Update `a` node's push cost, the sum of (its current index) + (`b` stack's length - its target `b` node's index)
-		a = a->next; //Move to the next `a` node for its cost analysis
+		a->push_cost = a->indexing;
+		if (!(a->above_median_line))
+			a->push_cost = len_a - (a->indexing);
+		if (a->target_node->above_median_line)
+			a->push_cost += a->target_node->indexing;
+		else
+			a->push_cost += len_b - (a->target_node->indexing);
+		a = a->next;
 	}
 }
 

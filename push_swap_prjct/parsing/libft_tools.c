@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:31:13 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 19:09:03 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 22:21:19 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,30 @@ t_stack_node	*last_node(t_stack_node *stack)
 	return (stack);
 }
 
-// t_stack_node	*ft_lstnew(void *content)
-// {
-// 	t_stack_node	*new;
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
 
-// 	new = malloc(sizeof(t_stack_node));
-// 	if (!new)
-// 		return (NULL);
-// 	new->value = content;
-// 	new->next = NULL;
-// 	return (new);
-// }
+long	ft_atol(const char *s)
+{
+	long	result;
+	int		sign;
+
+	result = 0;
+	sign = 1;
+	while (*s == ' ' || *s == '\t' || *s == '\n' || \
+			*s == '\r' || *s == '\f' || *s == '\v')
+		s++;
+	if (*s == '-' || *s == '+')
+	{
+		if (*s == '-')
+			sign = -1;
+		s++;
+	}
+	while (ft_isdigit(*s))
+		result = result * 10 + (*s++ - '0');
+	return (result * sign);
+}

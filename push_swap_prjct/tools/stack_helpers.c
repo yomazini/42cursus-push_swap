@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:32:04 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 17:55:04 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 22:13:53 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	len_stack(t_stack_node *stack)
 	return (i);
 }
 
-int stack_sorted(t_stack_node *stack)
+int	stack_sorted(t_stack_node *stack)
 {
 	if (!stack)
 		return (1);
-    while (stack->next)
-    {
-        if (stack->value > stack->next->value)
-            return (0);
-        stack = stack->next;
-    }
-    return (1);
+	while (stack->next)
+	{
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
 }
 
 t_stack_node	*find_min_node(t_stack_node *stack)
