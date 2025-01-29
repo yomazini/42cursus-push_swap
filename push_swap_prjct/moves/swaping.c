@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 19:51:31 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 20:24:10 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	ft_swap_node(t_stack_node **head)
 	(*head)->previous = NULL; //Sets the `previous` pointer of the `new head` to `NULL` completing the swap
 }
 
-void	sa(t_stack_node	**a, int testing) //Swap the first two nodes of stack `a` and print the instruction
+void	sa(t_stack_node	**a, int testing) //Swap 
+//2147483647 -2147483648
+//the first two nodes of stack `a` and print the instruction
 {
 	ft_swap_node(a);
 	if (!testing)
