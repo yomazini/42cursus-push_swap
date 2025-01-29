@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 21:12:46 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:26:26 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,62 @@
 }
 
 
+// void	set_target_a(t_stack_node *a, t_stack_node *b)
+// {
+// 	t_stack_node	*current_b;
+// 	t_stack_node	*target_node;
+// 	long			best_match_index;
+
+// 	while (a)
+// 	{
+// 		best_match_index = LONG_MIN;
+// 		current_b = b;
+// 		while (current_b)
+// 		{
+// 			if (a->value > current_b->value
+// 				&& current_b->value > best_match_index)
+// 			{
+// 				best_match_index = current_b->value;
+// 				target_node = current_b;
+// 			}
+// 			current_b = current_b->next;
+// 		}
+// 		if (best_match_index == LONG_MIN)
+// 			a->target_node = find_max_node(b);
+// 		else
+// 			a->target_node = target_node;
+// 		a = a -> next;
+// 	}
+// }
 void	set_target_a(t_stack_node *a, t_stack_node *b)
 {
-	t_stack_node	*current_b;
-	t_stack_node	*target_node;
-	long			best_match_index;
+	t_stack_node	*current_b; //To store the pointer to the current node in stack `b` and iterate through each node following
+	t_stack_node	*target_node; //To store the pointer to the target node in stack `b`
+	long			best_match_index; //In this case, the best match indexe stores the value of the "closest smaller number" so far
 
-	while (a)
+	while (a) //As long as we have nodes in stack `a`
 	{
-		best_match_index = LONG_MIN;
-		current_b = b;
-		while (current_b)
+		best_match_index = LONG_MIN; //Assign the smallest `long` as the closest smaller number so far
+		current_b = b; //Assign to `current_b` the current `b` node
+		while (current_b) //Iteratively search through all the nodes in stack `b` until the end of the stack is reached
 		{
-			if (a->value > current_b->value
-				&& current_b->value > best_match_index)
+			if (current_b->value < a->value 
+				&& current_b->value > best_match_index) //Check if `b` node is smaller than `a` node && bigger than the closest smaller number so far
 			{
-				best_match_index = current_b->value;
-				target_node = current_b;
+				best_match_index = current_b->value; //If so, update the value of the closest smaller number so far
+				target_node = current_b; //Assign the current `b` node as the `target_node`
 			}
-			current_b = current_b->next;
+			current_b = current_b->next; //Move to the next `b` node for comparison, until a "closer smaller number" is found
 		}
-		if (best_match_index == LONG_MIN)
-			a->target_node = find_max_node(b);
+		if (best_match_index == LONG_MIN) //Check if the LONG_MIN hasn't changed, it means we haven't found anything smaller
+			a->target_node = find_max_node(b); //If so, find the biggest `nbr` and set this as the target node
 		else
-			a->target_node = target_node;
-		a = a -> next;
+			a->target_node = target_node; //If no "closer smaller number" is found, and the best match has changed
+		a = a->next; //Move to the next `a` node to find it's target `b` node
 	}
 }
+
+
 
 void	current_index(t_stack_node *stack)
 {

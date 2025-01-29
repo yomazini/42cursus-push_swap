@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 21:01:01 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:40 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int				ft_isdigit(int c);
 char			**split(char *s, char c)
 ;void			free_error(t_stack_node **a);
 void			free_stack(t_stack_node **stack);
-long ft_atol(const char *s, t_stack_node **a);
+//long ft_atol(const char *s, t_stack_node **a);
+long	ft_atol(const char *s);
 //---
 // validating.c
 

@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 21:07:16 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:58 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_stack_a(t_stack_node **a, char **av)
 	{
 		if (syntax_error(av[i]))
 			free_error(a);
-		nmr = ft_atol(av[i], a);
+		nmr = ft_atol(av[i]);
 		if (nmr < INT_MIN || nmr > INT_MAX)
 			free_error(a);
 		number = (int)nmr;

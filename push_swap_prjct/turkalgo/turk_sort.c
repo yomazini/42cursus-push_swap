@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 21:13:45 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 17:28:15 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	rotate_a_n_b(t_stack_node **a,
 						t_stack_node **b,
 						t_stack_node *cheapest_node)
 {
-	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
-		rr(a, b, 0);
+	while (*b != cheapest_node->target_node
+		&& *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node, and the current top `a` node is not the top node
+		rr(a, b, 0); //Rotate both `a` and `b` nodes
 	current_index(*a);
 	current_index(*b);
 }
@@ -26,10 +27,12 @@ void	rev_rotate_a_n_b(t_stack_node **a,
 						t_stack_node **b,
 						t_stack_node *cheapest_node)
 {
-	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
-		rrr(a, b, 0);
-	current_index(*a);
+while (*b != cheapest_node->target_node
+		&& *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node && and the current `a` node is not the cheapest
+		rrr(a, b, 0); //Reverse rotate both `a` and `b` nodes
+	current_index(*a); //Refresh current node positions
 	current_index(*b);
+
 }
 
 t_stack_node	*get_cheapest(t_stack_node *stack) //Define a function that searches for the cheapest node, that is set by bool
@@ -100,7 +103,7 @@ void	turk_sort(t_stack_node **a, t_stack_node **b)
 		pb(a, b, 0);
 	if (len-- > 3 && !stack_sorted(*a))
 		pb(a, b, 0);
-	while (len-- && !stack_sorted(*a))
+	while (len-- > 3 && !stack_sorted(*a))
 	{
 		init_node_a(*a, *b);
 		move_a_2_b(a, b);

@@ -1,4 +1,204 @@
+NAME                = push_swap
+
+INC                 = .
+SRC_DIR             = .
+HEADER              = push_swap.h
+OBJ_DIR             = obj/
+
+CC                  = cc
+CFLAGS              = -Wall -Werror -Wextra -I$(INC) -MMD
+RM                  = rm -rf
+
+MOVES_DIR           =   $(SRC_DIR)/moves/pushing.c \
+                        $(SRC_DIR)/moves/rotating.c \
+                        $(SRC_DIR)/moves/rrotating.c \
+                        $(SRC_DIR)/moves/swaping.c
+
+PARSING_DIR         =   $(SRC_DIR)/parsing/libft_tools.c \
+                        $(SRC_DIR)/parsing/split.c \
+                        $(SRC_DIR)/parsing/validating.c
+
+TOOLS_DIR           =   $(SRC_DIR)/tools/initialiase_a_2_b.c \
+                        $(SRC_DIR)/tools/initialiase_b_2_a.c \
+                        $(SRC_DIR)/tools/stack_helpers.c \
+                        $(SRC_DIR)/tools/stack_helpers2.c
+
+TURKALGO_DIR        =   $(SRC_DIR)/turkalgo/three_sort.c \
+                        $(SRC_DIR)/turkalgo/turk_sort.c
+
+MAIN_DIR            =   $(SRC_DIR)/push_swap.c
+
+SRCS                = $(MOVES_DIR) $(PARSING_DIR) $(TOOLS_DIR) $(TURKALGO_DIR) $(MAIN_DIR)
+OBJS                = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+DEPS                = $(OBJS:.o=.d)
+
+all:                $(NAME)
+
+$(NAME):            $(OBJS) $(HEADER)
+					$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+$(OBJ_DIR)/%.o:     $(SRC_DIR)/%.c
+					@mkdir -p $(@D)
+					$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+					$(RM) $(OBJ_DIR)
+
+fclean:             clean
+					$(RM) $(NAME)
+
+re:                 fclean all
+
+-include $(DEPS)
+
+.PHONY:             all clean fclean re/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
+/*   Updated: 2025/01/21 19:38:53 by ymazini          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	main(int ac, char **av)
+{
+	t_stack_node	*a;
+	t_stack_node	*b;
+
+	a = NULL;
+	b = NULL;
+	if (ac == 1 || (ac == 2 && !av[1][0]))
+		return (1);
+	else if (ac == 2)
+		av = split(av[1], ' ');
+	init_stack_a(&a, av + 1);
+	if (!stack_sorted(a))
+	{
+		if (stack_length(a) == 2)
+			sa(&a, 0);
+		else if (stack_length(a) == 3)
+			sort_three(&a);
+		else
+			turk_sort(&a, &b);
+	}
+	free_stack(&a);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
+/*   Updated: 2025/01/29 15:30:40 by ymazini          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
+# include <unistd.h>
+# include <limits.h>
+# include <stdlib.h>
+//Must delete this
+# include <stdio.h>
+// # include <fcntl.h>
+
+typedef struct s_stack_node
+{
+	int						indexing;
+	int						value;
+	int						push_cost;
+	int						above_median_line;
+	int						cheapest;
+	struct s_stack_node		*previous;
+	struct s_stack_node		*next;
+	struct s_stack_node		*target_node;
+}	t_stack_node;
+
+//libft_tools.c
+
+int				ft_strlen(const char *s);
+int				stack_length(t_stack_node *stack);
+t_stack_node	*last_node(t_stack_node *stack);
+int				ft_atoi(const char *str);
+//t_stack_node	*ft_lstnew(void *content);
+
+// split.c file
+int				ft_isdigit(int c);
+char			**split(char *s, char c)
+;void			free_error(t_stack_node **a);
+void			free_stack(t_stack_node **stack);
+//long ft_atol(const char *s, t_stack_node **a);
+long	ft_atol(const char *s);
+//---
+// validating.c
+
+int				syntax_error(char *str_n);
+int				error_duplicate(t_stack_node *a, int n);
+// moves foldder
+
+void			push(t_stack_node **dst, t_stack_node **src);
+void			pa(t_stack_node **a, t_stack_node **b, int testing);
+void			pb(t_stack_node **a, t_stack_node **b, int testing);
+void			ft_rotate_node(t_stack_node **stack);
+void			ra(t_stack_node **a, int testing);
+void			rb(t_stack_node **b, int testing);
+void			rr(t_stack_node **a, t_stack_node **b, int testing);
+void ft_rev_rotate_node(t_stack_node **stack);
+void			rra(t_stack_node **a, int testing);
+void			rrb(t_stack_node **b, int testing);
+void			rrr(t_stack_node **a, t_stack_node **b, int testing);
+void			ft_swap_node(t_stack_node **head);
+void			sa(t_stack_node **a, int testing);
+void			sb(t_stack_node **b, int testing);
+void			ss(t_stack_node **a, t_stack_node **b, int testing);
+
+// initialiase_a_2_b.c
+
+void			set_cheapest_node(t_stack_node *stack);
+void			cost_analysis_a(t_stack_node *a, t_stack_node *b);
+void			set_target_a(t_stack_node *a, t_stack_node *b);
+void			current_index(t_stack_node *stack);
+void	init_node_a(t_stack_node *a, t_stack_node *b);
+t_stack_node	*get_cheapest(t_stack_node *stack);
+// initialiase_b_2_a.c
+void			init_nodes_b(t_stack_node *a, t_stack_node *b);
+void			set_target_b(t_stack_node *a, t_stack_node *b);
+
+// stackhelper.c
+void			ft_putstr(char *str);
+int				len_stack(t_stack_node *stack);
+int				stack_sorted(t_stack_node *stack);
+t_stack_node	*find_min_node(t_stack_node *stack);
+t_stack_node	*find_max_node(t_stack_node *stack);
+
+// stackhelper2.c
+
+void			append_node(t_stack_node **stack, int n);
+void			init_stack_a(t_stack_node **a, char **av);
+void			set_cheapest_node(t_stack_node *stack);
+
+//turk algo
+
+void			min_on_top(t_stack_node **a);
+void			sort_three(t_stack_node **a);
+void			rotate_a_n_b(t_stack_node **a, t_stack_node **b,
+					t_stack_node *cheapest_node);
+void			rev_rotate_a_n_b(t_stack_node **a, t_stack_node **b,
+					t_stack_node *cheapest_node);
+void			turk_sort(t_stack_node **a, t_stack_node **b);
+void			move_a_2_b(t_stack_node **a, t_stack_node **b);
+void			move_b_2_a(t_stack_node **a, t_stack_node **b);
+void	prep_for_push(t_stack_node **stack,t_stack_node *top_node,char stack_name);
+
+#endif/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pushing.c                                          :+:      :+:    :+:   */
@@ -6,33 +206,33 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:54 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 17:13:21 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:12:24 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	push(t_stack_node **dst, t_stack_node **src)
+void	push(t_stack_node **dst, t_stack_node **src) //Define a function that pushes a top node, from one stack to another's top node
 {
-	t_stack_node	*push_node;
+	t_stack_node	*push_node; //Used to store the pointer to the node to be pushed
 
-	if (!(*src))
+	if (!*src) //The top node of a stack to be pushed
 		return ;
-	push_node = *src;
-	*src = (*src)->next;
-	if (*src)
-		(*src)->previous = NULL;
-	push_node->previous = NULL;
-	if (!(*dst))
+	push_node = *src; //The top node to push is assigned to the `t_stack_node` variable
+	*src = (*src)->next; //Move the pointer of the stack to the next node, which will become the next `top node` after the node before is "popped off"
+	if (*src) //Check if the current node exists
+		(*src)->previous = NULL; //Set the current node as the head of the stack
+	push_node->previous = NULL; //Detach the node to push from its stack
+	if (!*dst) //Check if the other stack is empty
 	{
-		(*dst) = push_node;
-		(*dst)->next = NULL;
+		*dst = push_node; //If it's empty, assign as the first node of that stack, the node we want pushed
+		push_node->next = NULL; //Ensure it is also set as the last node, e.g. properly null terminate the stack
 	}
-	else
+	else //If the other stack we want to push to is not empty
 	{
-		push_node->next = (*dst);
-		push_node->next->previous = push_node;
-		*dst = push_node;
+		push_node->next = *dst; //Assign the node to push, to the top of the current top node of the stack
+		push_node->next->previous = push_node; //Assign to the "second node" `prev` attribute, the pushed node as the current top node
+		*dst = push_node; //Complete appending the node. The pointer to the top node of the stack is now pointing to our recently pushed node
 	}
 }
 
@@ -57,7 +257,7 @@ void	pb(t_stack_node **a, t_stack_node **b, int testing)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:58:24 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 19:32:29 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:52:41 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +277,19 @@ void	pb(t_stack_node **a, t_stack_node **b, int testing)
 // 	last->next->next = NULL;
 // }
 
-void ft_rotate_node(t_stack_node **head)
+void	ft_rotate_node(t_stack_node **stack) //Define a function that rotates the stack's top node to the bottom of the stack
 {
-    t_stack_node *last;
+	t_stack_node	*last_node1; //To store a pointer to the last node of a stack
 
-    if (!*head || !(*head)->next)
-        return;
-    last = last_node(*head);
-    last->next = (*head);
-    (*head) = (*head)->next;
-    (*head)->previous = NULL;
-    last->next->previous = last;
-    last->next->next = NULL;
-}
+	if (!*stack || !(*stack)->next) //Check if the stack is empty, or if there's one node
+		return ;
+	last_node1 = last_node(*stack); 
+	last_node1->next = *stack; //Assign to the last node, its `next` attribute as the top node, effectively setting the current top node as the last node
+	*stack = (*stack)->next; //Assign to the pointer of the top node, the node after it (second from the top)
+	(*stack)->previous = NULL; //Complete setting the current top node by detaching it from its previous top node
+	last_node1->next->previous = last_node1; //Reconnect the second node's prev pointer to point to what was previously the last node in the stack
+	last_node1->next->next = NULL; //Assign to the `next` attribute of the current last node, `NULL` effectively setting it as the current last node, and properly null terminating the stack
+}	
 
 void	ra(t_stack_node **a, int testing)
 {
@@ -120,7 +320,7 @@ void	rr(t_stack_node **a, t_stack_node **b, int testing)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:02:59 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 15:59:13 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:01:28 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,18 +340,18 @@ void	rr(t_stack_node **a, t_stack_node **b, int testing)
 // 	last->next->previous = last;
 // }
 
-void ft_rev_rotate_node(t_stack_node **head)
+void ft_rev_rotate_node(t_stack_node **stack)
 {
-    t_stack_node *last;
+	t_stack_node	*last; //To store the pointer to the last node
 
-    if (!*head || !(*head)->next)
-        return;
-    last = last_node(*head); // Correct: Dereference `head`
-    last->previous->next = NULL;
-    last->previous = NULL;
-    last->next = (*head);
-    (*head) = last;
-    last->next->previous = last;
+	if (!*stack || !(*stack)->next) //Check if the stack is empty, or if there's one node
+		return ;
+	last = last_node(*stack);
+	last->previous->next = NULL; //Assign to the `next` attribute of the node before itself, `NULL` effectively setting it as the current last node
+	last->next = *stack; //Assign to its own `next` attribute as the top node of the stack
+	last->previous = NULL; //Detach itself from the node before it
+	*stack = last;  //Complete appending itself to the top of the stack, and now holds the pointer to the top node
+	last->next->previous = last; //Update the current last node of the stack
 }
 
 void	rra(t_stack_node **a, int testing)
@@ -183,32 +383,45 @@ void	rrr(t_stack_node **a, t_stack_node **b, int testing)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 15:18:21 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 17:20:15 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
+// void	ft_swap_node(t_stack_node **head)
+// {
+// 	t_stack_node	*tmp;
+// 	t_stack_node	*prev_1;
+// 	t_stack_node	*next_1;
+
+// 	if (!(*head) || !((*head)->next))
+// 		return ;
+// 	tmp = *head;
+// 	prev_1 = (*head)->previous;
+// 	next_1 = (*head)->next->next;
+// 	(*head) = (*head)->next;
+// 	(*head)->next = tmp;
+// 	(*head)->previous = prev_1;
+// 	tmp->next = next_1;
+// 	tmp->previous = *head;
+// 	if (next_1)
+// 		next_1->previous = tmp;
+// 	if (prev_1)
+// 		prev_1->next = *head;
+// }
+
 void	ft_swap_node(t_stack_node **head)
 {
-	t_stack_node	*tmp;
-	t_stack_node	*prev_1;
-	t_stack_node	*next_1;
-
-	if (!(*head) || !((*head)->next))
+	if (!*head || !(*head)->next) //Check if the stop node, or second node of a stack exists
 		return ;
-	tmp = *head;
-	prev_1 = (*head)->previous;
-	next_1 = (*head)->next->next;
-	(*head) = (*head)->next;
-	(*head)->next = tmp;
-	(*head)->previous = prev_1;
-	tmp->next = next_1;
-	tmp->previous = *head;
-	if (next_1)
-		next_1->previous = tmp;
-	if (prev_1)
-		prev_1->next = *head;
+	*head = (*head)->next; //Update `head` to point to the next node, effectively swapping the first and second nodes
+	(*head)->previous->previous = *head; //Update the `prev` pointer of the node before the `new head` to point to the `new head`
+	(*head)->previous->next = (*head)->next; //Update the `next` pointer of the node before the `new head` to skip the `old head` and point directly to the `new head`
+	if ((*head)->next) //Check if there's a `next` node after the `new head` and
+		(*head)->next->previous = (*head)->previous; //If so, update its `prev` pointer to point back to the `new head`
+	(*head)->next = (*head)->previous; //Update the `next` pointer of the `new head` to point to the `old head`, effectively reversing their positions
+	(*head)->previous = NULL; //Sets the `prev` pointer of the `new head` to `NULL` completing the swap
 }
 
 void	sa(t_stack_node **a, int testing)
@@ -538,7 +751,7 @@ management, and error handling.
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:04:38 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:19 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -603,37 +816,54 @@ void	free_error(t_stack_node **a) //Define a function that, upon encountering a 
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
-	{
 		return (1);
-	}
 	return (0);
 }
-long ft_atol(const char *s, t_stack_node **a) 
-{
-    long result = 0;
-    int sign = 1;
-    int i = 0;
+// long ft_atol(const char *s, t_stack_node **a) 
+// {
+//     long result = 0;
+//     int sign = 1;
+//     int i = 0;
 
-    while (s[i] == ' ' || (s[i] >= '\t' && s[i] <= '\r'))
-        i++;
-    if (s[i] == '+' || s[i] == '-') 
-    {
-        if (s[i] == '-')
-            sign = -1;
-        i++;
-    }
-    if (!ft_isdigit(s[i]))
-        free_error(a);
-    while (s[i] >= '0' && s[i] <= '9') 
-    {
-        result = result * 10 + (s[i] - '0');
-        if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
-            free_error(a);
-        i++;
-    }
-    return (result * sign);
-}
-/* ************************************************************************** */
+//     while (s[i] == ' ' || (s[i] >= '\t' && s[i] <= '\r'))
+//         i++;
+//     if (s[i] == '+' || s[i] == '-') 
+//     {
+//         if (s[i] == '-')
+//             sign = -1;
+//         i++;
+//     }
+//     if (!ft_isdigit(s[i]))
+//         free_error(a);
+//     while (s[i] >= '0' && s[i] <= '9') 
+//     {
+//         result = result * 10 + (s[i] - '0');
+//         if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
+//             free_error(a);
+//         i++;
+//     }
+//     return (result * sign);
+// }
+long	ft_atol(const char *s) //Define a function that converts every string into a long value
+{
+	long	result;
+	int		sign;
+
+	result = 0;
+	sign = 1; 
+	while (*s == ' ' || *s == '\t' || *s == '\n' || \
+			*s == '\r' || *s == '\f' || *s == '\v')
+		s++;
+	if (*s == '-' || *s == '+')
+	{
+		if (*s == '-')
+			sign = -1;
+		s++;
+	}
+	while (ft_isdigit(*s))
+		result = result * 10 + (*s++ - '0');
+	return (result * sign);
+}/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   initialiase_a_2_b.c                                :+:      :+:    :+:   */
@@ -641,59 +871,89 @@ long ft_atol(const char *s, t_stack_node **a)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 17:50:44 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:26:26 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
+ void	cost_analysis_a(t_stack_node *a, t_stack_node *b) //Define a functio that analyses the cost of the `a` node along with it's target `b` node, which is the sum of the number of instructions for both the nodes to rotate to the top of their stacks
 {
-    int		len_a;
-    int		len_b;
+	int	len_a; //To store the length of stack `a`
+	int	len_b; //To store the length of stack `b`
 
-    len_a = len_stack(a);
-    len_b = len_stack(b);
-    while (a)
-    {
-        a->push_cost = a->indexing;
-        if (!(a->above_median_line))
-            a->push_cost = len_a - (a->indexing);
-        if (a->target_node->above_median_line)
-            a->push_cost = a->push_cost + a->target_node->indexing;
-        else
-            a->push_cost = a->push_cost + len_b - (a->target_node->indexing);
-        a = a->next;
-    }
-}
-
-void	set_target_a(t_stack_node *a, t_stack_node *b)
-{
-	t_stack_node	*current_b;
-	t_stack_node	*target_node;
-	long			best_match_index;
-
-	while (a)
+	len_a = len_stack(a);
+	len_b = len_stack(b);
+	while (a) //Loop through each node until the end of the stack is reached
 	{
-		best_match_index = LONG_MIN;
-		current_b = b;
-		while (current_b)
-		{
-			if (a->value > current_b->value
-				&& current_b->value > best_match_index)
-			{
-				best_match_index = current_b->value;
-				target_node = current_b;
-			}
-			current_b = current_b->next;
-		}
-		if (best_match_index == LONG_MIN)
-			a->target_node = find_max_node(b);
-		else
-			a->target_node = target_node;
-		a = a -> next;
+		a->push_cost = a->indexing; //Assign the current `a` node's push cost, its' index value
+		if (!(a->above_median_line)) //Check if the above_median data is false, meaning it is below median
+			a->push_cost = len_a - (a->indexing); //If so, update `a` node's push cost to the stack's length - index
+		if (a->target_node->above_median_line) //Check if `a` node's target node `b` has a "true" above median attribute, meaning the target `b` node is above median
+			a->push_cost += a->target_node->indexing; //If so, update `a` node's push cost, the sum of (its current index) + (its target `b` node's index)
+		else //If `a` node is indeed above median and its target `b` node is below median
+			a->push_cost += len_b - (a->target_node->indexing); //Update `a` node's push cost, the sum of (its current index) + (`b` stack's length - its target `b` node's index)
+		a = a->next; //Move to the next `a` node for its cost analysis
 	}
 }
+
+
+// void	set_target_a(t_stack_node *a, t_stack_node *b)
+// {
+// 	t_stack_node	*current_b;
+// 	t_stack_node	*target_node;
+// 	long			best_match_index;
+
+// 	while (a)
+// 	{
+// 		best_match_index = LONG_MIN;
+// 		current_b = b;
+// 		while (current_b)
+// 		{
+// 			if (a->value > current_b->value
+// 				&& current_b->value > best_match_index)
+// 			{
+// 				best_match_index = current_b->value;
+// 				target_node = current_b;
+// 			}
+// 			current_b = current_b->next;
+// 		}
+// 		if (best_match_index == LONG_MIN)
+// 			a->target_node = find_max_node(b);
+// 		else
+// 			a->target_node = target_node;
+// 		a = a -> next;
+// 	}
+// }
+void	set_target_a(t_stack_node *a, t_stack_node *b)
+{
+	t_stack_node	*current_b; //To store the pointer to the current node in stack `b` and iterate through each node following
+	t_stack_node	*target_node; //To store the pointer to the target node in stack `b`
+	long			best_match_index; //In this case, the best match indexe stores the value of the "closest smaller number" so far
+
+	while (a) //As long as we have nodes in stack `a`
+	{
+		best_match_index = LONG_MIN; //Assign the smallest `long` as the closest smaller number so far
+		current_b = b; //Assign to `current_b` the current `b` node
+		while (current_b) //Iteratively search through all the nodes in stack `b` until the end of the stack is reached
+		{
+			if (current_b->value < a->value 
+				&& current_b->value > best_match_index) //Check if `b` node is smaller than `a` node && bigger than the closest smaller number so far
+			{
+				best_match_index = current_b->value; //If so, update the value of the closest smaller number so far
+				target_node = current_b; //Assign the current `b` node as the `target_node`
+			}
+			current_b = current_b->next; //Move to the next `b` node for comparison, until a "closer smaller number" is found
+		}
+		if (best_match_index == LONG_MIN) //Check if the LONG_MIN hasn't changed, it means we haven't found anything smaller
+			a->target_node = find_max_node(b); //If so, find the biggest `nbr` and set this as the target node
+		else
+			a->target_node = target_node; //If no "closer smaller number" is found, and the best match has changed
+		a = a->next; //Move to the next `a` node to find it's target `b` node
+	}
+}
+
+
 
 void	current_index(t_stack_node *stack)
 {
@@ -732,38 +992,38 @@ void	init_node_a(t_stack_node *a, t_stack_node *b)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:29:46 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 17:51:50 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/21 21:12:53 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	set_target_b(t_stack_node *a, t_stack_node *b)
+ void	set_target_b(t_stack_node *a, t_stack_node *b) //Define a function that sets for the current `a` node, its target node from stack `a`
 {
-    t_stack_node	*target_node;
-    t_stack_node	*current_a;
-    long			best_match_index;
+	t_stack_node	*current_a; //To store the pointer to the current `a` node
+	t_stack_node	*target_node; //To store the pointer of the target node for `b` node
+	long			best_match_index; //To store the "closest bigger" number so far
 
-    while (b)
-    {
-        best_match_index = LONG_MAX;
-        current_a = a;
-        while (current_a)
-        {
-            if (current_a->value > b->value && 
-                current_a->value < best_match_index)
-            {
-                best_match_index = current_a->value;
-                target_node = current_a;
-            }
-            current_a = current_a->next;
-        }
-        if (best_match_index == LONG_MIN)
-            b->target_node = find_min_node(a);
-        else
-            b->target_node = target_node;
-        b = b->next;
-    }
+	while (b)
+	{
+		best_match_index = LONG_MAX; //Set the current best match to the max long
+		current_a = a; //Assign the pointer to point to the current `a` node
+		while (current_a) //While the pointer is not set to NULL
+		{
+			if (current_a->value > b->value 
+				&& current_a->value < best_match_index) //Check if the `a` node's value is bigger than `b` node, && smaller than the "closest bigger" so far
+			{
+				best_match_index = current_a->value; //Set the best match as the value in the current `a` node
+				target_node = current_a; //Set `b` node's target node pointer to point to the current `a` node
+			}
+			current_a = current_a->next; //Move to the next `a` node for processing
+		}
+		if (best_match_index == LONG_MAX) //If the best match value has not changed
+			b->target_node = find_min_node(a); //Set `b` node's target node pointer to point to the smallest number in stack `a`
+		else
+			b->target_node = target_node; //If the best match value has been updated, then we have a target node for the current `b` node
+		b = b->next; //Move to the next `b` node for processing
+	}
 }
 
 void	init_nodes_b(t_stack_node *a, t_stack_node *b)
@@ -870,7 +1130,7 @@ t_stack_node	*find_max_node(t_stack_node *stack)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:06:36 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:58 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -914,12 +1174,10 @@ void	init_stack_a(t_stack_node **a, char **av)
 	{
 		if (syntax_error(av[i]))
 			free_error(a);
-		nmr = ft_atol(av[i], a);
+		nmr = ft_atol(av[i]);
 		if (nmr < INT_MIN || nmr > INT_MAX)
-		{	
 			free_error(a);
-			number = (int)nmr;
-		}
+		number = (int)nmr;
 		if (error_duplicate(*a, number))
 			free_error(a);
 		append_node(a, number);
@@ -929,23 +1187,22 @@ void	init_stack_a(t_stack_node **a, char **av)
 
 void	set_cheapest_node(t_stack_node *stack)
 {
-	t_stack_node	*cheapest_node;
-	long			cheapest_value;
+	long			cheapest_value; //To store the value of the cheapest node so far
+	t_stack_node	*cheapest_node; //To store a pointer to the cheapest node so far
 
-	cheapest_node = stack;
-	cheapest_value = LONG_MAX;
-	if (!stack)
+	if (!stack) //Check for an empty stack
 		return ;
-	while (stack)
+	cheapest_value = LONG_MAX; //Assign the biggest `long` as the cheapest value so far
+	while (stack) //Loop through every node until the end of the stack is reached, and we find the cheapest node
 	{
-		if (stack->push_cost < cheapest_value)
+		if (stack->push_cost < cheapest_value) //Check if the current node's push cost is cheaper than the cheapest value so far
 		{
-			cheapest_node = stack;
-			cheapest_value = stack->push_cost;
+			cheapest_value = stack->push_cost; //If so, update the cheapest value to the current node's push cost
+			cheapest_node = stack; //Assign the current node as the cheapest node so far
 		}
-		stack = stack->next;
+		stack = stack->next; //Move to the next node for comparison
 	}
-	cheapest_node->cheapest = 1;
+	cheapest_node->cheapest = 1; //After iterating through the stack, if no cheaper node is found than the current, then set the cheapest node's `cheapest` attribut to `true` in the data structure
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -992,7 +1249,7 @@ void	sort_three(t_stack_node **a)
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 19:31:09 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 17:28:15 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1002,8 +1259,9 @@ void	rotate_a_n_b(t_stack_node **a,
 						t_stack_node **b,
 						t_stack_node *cheapest_node)
 {
-	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
-		rr(a, b, 0);
+	while (*b != cheapest_node->target_node
+		&& *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node, and the current top `a` node is not the top node
+		rr(a, b, 0); //Rotate both `a` and `b` nodes
 	current_index(*a);
 	current_index(*b);
 }
@@ -1012,10 +1270,12 @@ void	rev_rotate_a_n_b(t_stack_node **a,
 						t_stack_node **b,
 						t_stack_node *cheapest_node)
 {
-	while (cheapest_node->target_node != (*b) && (*a) != cheapest_node)
-		rrr(a, b, 0);
-	current_index(*a);
+while (*b != cheapest_node->target_node
+		&& *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node && and the current `a` node is not the cheapest
+		rrr(a, b, 0); //Reverse rotate both `a` and `b` nodes
+	current_index(*a); //Refresh current node positions
 	current_index(*b);
+
 }
 
 t_stack_node	*get_cheapest(t_stack_node *stack) //Define a function that searches for the cheapest node, that is set by bool
@@ -1054,27 +1314,28 @@ void	prep_for_push(t_stack_node **stack,
 	}
 }
 
-void	move_a_2_b(t_stack_node **a, t_stack_node **b)
+ void	move_a_2_b(t_stack_node **a, t_stack_node **b) //Define a function that prepares the cheapest nodes on top of the stacks for pushing `a` nodes to stack `b`, until there are three nodes left in `a`
 {
-	t_stack_node	*cheapest_node;
+	t_stack_node	*cheapest_node; //To store the pointer to the cheapest `a` node
 
-	cheapest_node = get_cheapest(*a);
-	if (cheapest_node->above_median_line
-		&& cheapest_node->target_node->above_median_line)
+	cheapest_node = get_cheapest(*a); 
+	if (cheapest_node->above_median_line 
+		&& cheapest_node->target_node->above_median_line) //If both the cheapest `a` node and its target `b` node are above the median
 		rotate_a_n_b(a, b, cheapest_node);
-	else if (!(cheapest_node->above_median_line
-			&& cheapest_node->target_node->above_median_line))
-		rev_rotate_a_n_b(a, b, cheapest_node);
-	prep_for_push(a, cheapest_node, 'a');
-	prep_for_push(b, cheapest_node, 'b');
+	else if (!(cheapest_node->above_median_line) 
+		&& !(cheapest_node->target_node->above_median_line)) //If both the cheapest `a` node and its target `b` node are below the median
+		rev_rotate_a_n_b(a, b, cheapest_node); //`rev_rotate_both` will execute if neither nodes are at the top
+	prep_for_push(a, cheapest_node, 'a'); //Ensure the cheapest nodes is at the top, ready for pushing
+	prep_for_push(b, cheapest_node->target_node, 'b'); //Ensure the target node is at the top, ready for pushing
 	pb(b, a, 0);
 }
 
 void	move_b_2_a(t_stack_node **a, t_stack_node **b)
 {
-	prep_for_push(a, (*b)->target_node, 'a');
-	pa(a, b, 0);
+	prep_for_push(a, (*b)->target_node, 'a'); //Ensure `b`'s target `a` node is on top of the stack
+	pa(a, b, 0); 
 }
+
 
 void	turk_sort(t_stack_node **a, t_stack_node **b)
 {
@@ -1085,7 +1346,7 @@ void	turk_sort(t_stack_node **a, t_stack_node **b)
 		pb(a, b, 0);
 	if (len-- > 3 && !stack_sorted(*a))
 		pb(a, b, 0);
-	while (len-- && !stack_sorted(*a))
+	while (len-- > 3 && !stack_sorted(*a))
 	{
 		init_node_a(*a, *b);
 		move_a_2_b(a, b);
@@ -1099,203 +1360,3 @@ void	turk_sort(t_stack_node **a, t_stack_node **b)
 	current_index(*a);
 	min_on_top(a);
 }
-NAME                = push_swap
-
-INC                 = .
-SRC_DIR             = .
-HEADER              = push_swap.h
-OBJ_DIR             = obj/
-
-CC                  = cc
-CFLAGS              = -Wall -Werror -Wextra -I$(INC) -MMD
-RM                  = rm -rf
-
-MOVES_DIR           =   $(SRC_DIR)/moves/pushing.c \
-                        $(SRC_DIR)/moves/rotating.c \
-                        $(SRC_DIR)/moves/rrotating.c \
-                        $(SRC_DIR)/moves/swaping.c
-
-PARSING_DIR         =   $(SRC_DIR)/parsing/libft_tools.c \
-                        $(SRC_DIR)/parsing/split.c \
-                        $(SRC_DIR)/parsing/validating.c
-
-TOOLS_DIR           =   $(SRC_DIR)/tools/initialiase_a_2_b.c \
-                        $(SRC_DIR)/tools/initialiase_b_2_a.c \
-                        $(SRC_DIR)/tools/stack_helpers.c \
-                        $(SRC_DIR)/tools/stack_helpers2.c
-
-TURKALGO_DIR        =   $(SRC_DIR)/turkalgo/three_sort.c \
-                        $(SRC_DIR)/turkalgo/turk_sort.c
-
-MAIN_DIR            =   $(SRC_DIR)/push_swap.c
-
-SRCS                = $(MOVES_DIR) $(PARSING_DIR) $(TOOLS_DIR) $(TURKALGO_DIR) $(MAIN_DIR)
-OBJS                = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-DEPS                = $(OBJS:.o=.d)
-
-all:                $(NAME)
-
-$(NAME):            $(OBJS) $(HEADER)
-					$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
-$(OBJ_DIR)/%.o:     $(SRC_DIR)/%.c
-					@mkdir -p $(@D)
-					$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-					$(RM) $(OBJ_DIR)
-
-fclean:             clean
-					$(RM) $(NAME)
-
-re:                 fclean all
-
--include $(DEPS)
-
-.PHONY:             all clean fclean re/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 19:38:53 by ymazini          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "push_swap.h"
-
-int	main(int ac, char **av)
-{
-	t_stack_node	*a;
-	t_stack_node	*b;
-
-	a = NULL;
-	b = NULL;
-	if (ac == 1 || (ac == 2 && !av[1][0]))
-		return (1);
-	else if (ac == 2)
-		av = split(av[1], ' ');
-	init_stack_a(&a, av + 1);
-	if (!stack_sorted(a))
-	{
-		if (stack_length(a) == 2)
-			sa(&a, 0);
-		else if (stack_length(a) == 3)
-			sort_three(&a);
-		else
-			turk_sort(&a, &b);
-	}
-	free_stack(&a);
-	return (0);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:05:31 by ymazini          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include <unistd.h>
-# include <limits.h>
-# include <stdlib.h>
-//Must delete this
-# include <stdio.h>
-// # include <fcntl.h>
-
-typedef struct s_stack_node
-{
-	int						indexing;
-	int						value;
-	int						push_cost;
-	int						above_median_line;
-	int						cheapest;
-	struct s_stack_node		*previous;
-	struct s_stack_node		*next;
-	struct s_stack_node		*target_node;
-}	t_stack_node;
-
-//libft_tools.c
-
-int				ft_strlen(const char *s);
-int				stack_length(t_stack_node *stack);
-t_stack_node	*last_node(t_stack_node *stack);
-int				ft_atoi(const char *str);
-//t_stack_node	*ft_lstnew(void *content);
-
-// split.c file
-int				ft_isdigit(int c);
-char			**split(char *s, char c)
-;void			free_error(t_stack_node **a);
-void			free_stack(t_stack_node **stack);
-long ft_atol(const char *s, t_stack_node **a);
-//---
-// validating.c
-
-int				syntax_error(char *str_n);
-int				error_duplicate(t_stack_node *a, int n);
-// moves foldder
-
-void			push(t_stack_node **dst, t_stack_node **src);
-void			pa(t_stack_node **a, t_stack_node **b, int testing);
-void			pb(t_stack_node **a, t_stack_node **b, int testing);
-void			ft_rotate_node(t_stack_node **head);
-void			ra(t_stack_node **a, int testing);
-void			rb(t_stack_node **b, int testing);
-void			rr(t_stack_node **a, t_stack_node **b, int testing);
-void			ft_rev_rotate_node(t_stack_node **head);
-void			rra(t_stack_node **a, int testing);
-void			rrb(t_stack_node **b, int testing);
-void			rrr(t_stack_node **a, t_stack_node **b, int testing);
-void			ft_swap_node(t_stack_node **head);
-void			sa(t_stack_node **a, int testing);
-void			sb(t_stack_node **b, int testing);
-void			ss(t_stack_node **a, t_stack_node **b, int testing);
-
-// initialiase_a_2_b.c
-
-void			set_cheapest_node(t_stack_node *stack);
-void			cost_analysis_a(t_stack_node *a, t_stack_node *b);
-void			set_target_a(t_stack_node *a, t_stack_node *b);
-void			current_index(t_stack_node *stack);
-void	init_node_a(t_stack_node *a, t_stack_node *b);
-t_stack_node	*get_cheapest(t_stack_node *stack);
-// initialiase_b_2_a.c
-void			init_nodes_b(t_stack_node *a, t_stack_node *b);
-void			set_target_b(t_stack_node *a, t_stack_node *b);
-
-// stackhelper.c
-void			ft_putstr(char *str);
-int				len_stack(t_stack_node *stack);
-int				stack_sorted(t_stack_node *stack);
-t_stack_node	*find_min_node(t_stack_node *stack);
-t_stack_node	*find_max_node(t_stack_node *stack);
-
-// stackhelper2.c
-
-void			append_node(t_stack_node **stack, int n);
-void			init_stack_a(t_stack_node **a, char **av);
-void			set_cheapest_node(t_stack_node *stack);
-
-//turk algo
-
-void			min_on_top(t_stack_node **a);
-void			sort_three(t_stack_node **a);
-void			rotate_a_n_b(t_stack_node **a, t_stack_node **b,
-					t_stack_node *cheapest_node);
-void			rev_rotate_a_n_b(t_stack_node **a, t_stack_node **b,
-					t_stack_node *cheapest_node);
-void			turk_sort(t_stack_node **a, t_stack_node **b);
-void			move_a_2_b(t_stack_node **a, t_stack_node **b);
-void			move_b_2_a(t_stack_node **a, t_stack_node **b);
-void	prep_for_push(t_stack_node **stack,t_stack_node *top_node,char stack_name);
-
-#endif

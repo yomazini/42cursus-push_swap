@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:04:38 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:19 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,33 +71,51 @@ void	free_error(t_stack_node **a) //Define a function that, upon encountering a 
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
-	{
 		return (1);
-	}
 	return (0);
 }
-long ft_atol(const char *s, t_stack_node **a) 
-{
-    long result = 0;
-    int sign = 1;
-    int i = 0;
+// long ft_atol(const char *s, t_stack_node **a) 
+// {
+//     long result = 0;
+//     int sign = 1;
+//     int i = 0;
 
-    while (s[i] == ' ' || (s[i] >= '\t' && s[i] <= '\r'))
-        i++;
-    if (s[i] == '+' || s[i] == '-') 
-    {
-        if (s[i] == '-')
-            sign = -1;
-        i++;
-    }
-    if (!ft_isdigit(s[i]))
-        free_error(a);
-    while (s[i] >= '0' && s[i] <= '9') 
-    {
-        result = result * 10 + (s[i] - '0');
-        if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
-            free_error(a);
-        i++;
-    }
-    return (result * sign);
+//     while (s[i] == ' ' || (s[i] >= '\t' && s[i] <= '\r'))
+//         i++;
+//     if (s[i] == '+' || s[i] == '-') 
+//     {
+//         if (s[i] == '-')
+//             sign = -1;
+//         i++;
+//     }
+//     if (!ft_isdigit(s[i]))
+//         free_error(a);
+//     while (s[i] >= '0' && s[i] <= '9') 
+//     {
+//         result = result * 10 + (s[i] - '0');
+//         if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
+//             free_error(a);
+//         i++;
+//     }
+//     return (result * sign);
+// }
+long	ft_atol(const char *s) //Define a function that converts every string into a long value
+{
+	long	result;
+	int		sign;
+
+	result = 0;
+	sign = 1; 
+	while (*s == ' ' || *s == '\t' || *s == '\n' || \
+			*s == '\r' || *s == '\f' || *s == '\v')
+		s++;
+	if (*s == '-' || *s == '+')
+	{
+		if (*s == '-')
+			sign = -1;
+		s++;
+	}
+	while (ft_isdigit(*s))
+		result = result * 10 + (*s++ - '0');
+	return (result * sign);
 }
