@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:26 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 19:38:11 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:06:15 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,17 @@
 
 //See notes below, why we had to create a "mutable" ft_split, rather than using our libft version
 
-#include <stdbool.h>
+//#include <stdbool.h>
 
 static int	count_words(char *s, char c) //Define a function that returns the substrings count in a string seperated by a delimiter
 {
 	int		count; //To store the substring count
-	bool	inside_word; //A flag to indicate whether we are inside a substring or a delimeter
+	int	inside_word; //A flag to indicate whether we are inside a substring or a delimeter
 
 	count = 0;
 	while (*s) //Loop until the end of the string is reached
 	{
-		inside_word = false; //Set the bool to false to start the loop
+		inside_word = 0; //Set the bool to false to start the loop
 		while (*s == c) //While the current character is the delimeter
 			++s; //Move to the next character
 		while (*s != c && *s) //While the current character is not a deilimeter and the end of the string is not reached, 
@@ -109,7 +109,7 @@ static int	count_words(char *s, char c) //Define a function that returns the sub
 			if (!inside_word) //If we are not currently inside the substring
 			{
 				++count; //Increment the count as we are about to move inside a substring
-				inside_word = true; //Set the bool to true, indicating we've found a substring
+				inside_word = 1; //Set the bool to true, indicating we've found a substring
 			}
 			++s; //Move to the next character of the string
 		}

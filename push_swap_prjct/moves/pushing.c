@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:54 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 21:12:24 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:41:07 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	push(t_stack_node **dst, t_stack_node **src) //Define a function that pushe
 	}
 }
 
-void	pa(t_stack_node **a, t_stack_node **b, int testing)
+void	pa(t_stack_node **a, t_stack_node **b, int testing) //Push on top of `b`, the top `a` and print the instruction
 {
-	push(a, b);
-	if (!testing)
+	push(a, b); 
+	if (!testing) 
 		ft_putstr("pa\n");
 }
 
-void	pb(t_stack_node **a, t_stack_node **b, int testing)
+void	pb(t_stack_node **b, t_stack_node **a, int testing) //Push on top of `a`, the top `b` and print the instruction
 {
 	push(b, a);
 	if (!testing)

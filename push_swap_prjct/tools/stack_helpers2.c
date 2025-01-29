@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 15:30:58 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:22:22 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	init_stack_a(t_stack_node **a, char **av)
 	}
 }
 
-void	set_cheapest_node(t_stack_node *stack)
+
+
+void	set_cheapest_node(t_stack_node *stack) //Define a function that sets a node's `cheapest` attribute as `true` or `false`
 {
 	long			cheapest_value; //To store the value of the cheapest node so far
 	t_stack_node	*cheapest_node; //To store a pointer to the cheapest node so far

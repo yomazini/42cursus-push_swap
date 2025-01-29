@@ -6,25 +6,12 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:58:24 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 20:52:41 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:50:44 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-// void	ft_rotate_node(t_stack_node **head)
-// {
-// 	t_stack_node	*last;
-
-// 	if (!*head || !(*head)->next)
-// 		return ;
-// 	last = last_node(head); // Dereference `head` to pass the correct type
-// 	last->next = (*head);
-// 	(*head) = (*head)->next;
-// 	(*head)->previous = NULL;
-// 	last->next->previous = last;
-// 	last->next->next = NULL;
-// }
 
 void	ft_rotate_node(t_stack_node **stack) //Define a function that rotates the stack's top node to the bottom of the stack
 {
@@ -38,26 +25,26 @@ void	ft_rotate_node(t_stack_node **stack) //Define a function that rotates the s
 	(*stack)->previous = NULL; //Complete setting the current top node by detaching it from its previous top node
 	last_node1->next->previous = last_node1; //Reconnect the second node's prev pointer to point to what was previously the last node in the stack
 	last_node1->next->next = NULL; //Assign to the `next` attribute of the current last node, `NULL` effectively setting it as the current last node, and properly null terminating the stack
-}	
+}		
 
-void	ra(t_stack_node **a, int testing)
+void	ra(t_stack_node **a, int testing) //Rotate the top `a` node to the bottom of the stack, and print the instruction
 {
 	ft_rotate_node(a);
 	if (!testing)
 		ft_putstr("ra\n");
 }
 
-void	rb(t_stack_node **b, int testing)
+void	rb(t_stack_node **b, int testing) //Rotate the top `b` node to the bottom of the stack, and print the instruction
 {
 	ft_rotate_node(b);
 	if (!testing)
 		ft_putstr("rb\n");
 }
 
-void	rr(t_stack_node **a, t_stack_node **b, int testing)
+void	rr(t_stack_node **a, t_stack_node **b, int testing) //Stimultaneously rotate both the top `a` and `b` nodes to the bottom of the stack, and print the instruction
 {
 	ft_rotate_node(a);
 	ft_rotate_node(b);
 	if (!testing)
-		ft_putstr("rrr\n");
+		ft_putstr("rr\n");
 }

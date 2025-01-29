@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:31:13 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/21 16:20:11 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:09:03 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,6 @@ t_stack_node	*last_node(t_stack_node *stack)
 		stack = stack->next;
 	return (stack);
 }
-
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	res;
-	int	sym;
-
-	i = 0;
-	res = 0;
-	sym = 1;
-	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sym = -sym;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i] - '0');
-		i++;
-	}
-	return (res * sym);
-}
-
-
 
 // t_stack_node	*ft_lstnew(void *content)
 // {

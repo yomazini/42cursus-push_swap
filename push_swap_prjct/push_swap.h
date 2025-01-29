@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 15:30:40 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:11:16 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_stack_node
 int				ft_strlen(const char *s);
 int				stack_length(t_stack_node *stack);
 t_stack_node	*last_node(t_stack_node *stack);
-int				ft_atoi(const char *str);
 //t_stack_node	*ft_lstnew(void *content);
 
 // split.c file
@@ -44,7 +43,6 @@ int				ft_isdigit(int c);
 char			**split(char *s, char c)
 ;void			free_error(t_stack_node **a);
 void			free_stack(t_stack_node **stack);
-//long ft_atol(const char *s, t_stack_node **a);
 long	ft_atol(const char *s);
 //---
 // validating.c
