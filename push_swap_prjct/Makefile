@@ -1,54 +1,41 @@
-NAME                = push_swap
+NAME = push_swap
 
-INC                 = .
-SRC_DIR             = .
-HEADER              = push_swap.h
-OBJ_DIR             = obj/
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+RM = rm -rf
 
-CC                  = cc
-CFLAGS              = -Wall -Werror -Wextra -I$(INC) -MMD
-RM                  = rm -rf
+OBJ_DIR = obj
+HEADER = push_swap.h
 
-MOVES_DIR           =   $(SRC_DIR)/moves/pushing.c \
-                        $(SRC_DIR)/moves/rotating.c \
-                        $(SRC_DIR)/moves/rrotating.c \
-                        $(SRC_DIR)/moves/swaping.c
+OBJS = \
+	$(OBJ_DIR)/moves/pushing.o \
+	$(OBJ_DIR)/moves/rotating.o \
+	$(OBJ_DIR)/moves/rrotating.o \
+	$(OBJ_DIR)/moves/swaping.o \
+	$(OBJ_DIR)/parsing/libft_tools.o \
+	$(OBJ_DIR)/parsing/split.o \
+	$(OBJ_DIR)/parsing/validating.o \
+	$(OBJ_DIR)/tools/initialiase_a_2_b.o \
+	$(OBJ_DIR)/tools/initialiase_b_2_a.o \
+	$(OBJ_DIR)/tools/stack_helpers.o \
+	$(OBJ_DIR)/tools/stack_helpers2.o \
+	$(OBJ_DIR)/turkalgo/three_sort.o \
+	$(OBJ_DIR)/turkalgo/turk_sort.o \
+	$(OBJ_DIR)/push_swap.o
 
-PARSING_DIR         =   $(SRC_DIR)/parsing/libft_tools.c \
-                        $(SRC_DIR)/parsing/split.c \
-                        $(SRC_DIR)/parsing/validating.c
+all: $(NAME)
 
-TOOLS_DIR           =   $(SRC_DIR)/tools/initialiase_a_2_b.c \
-                        $(SRC_DIR)/tools/initialiase_b_2_a.c \
-                        $(SRC_DIR)/tools/stack_helpers.c \
-                        $(SRC_DIR)/tools/stack_helpers2.c
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
 
-TURKALGO_DIR        =   $(SRC_DIR)/turkalgo/three_sort.c \
-                        $(SRC_DIR)/turkalgo/turk_sort.c
-
-MAIN_DIR            =   $(SRC_DIR)/push_swap.c
-
-SRCS                = $(MOVES_DIR) $(PARSING_DIR) $(TOOLS_DIR) $(TURKALGO_DIR) $(MAIN_DIR)
-OBJS                = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-DEPS                = $(OBJS:.o=.d)
-
-all:                $(NAME)
-
-$(NAME):            $(OBJS) $(HEADER)
-					$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
-$(OBJ_DIR)/%.o:     $(SRC_DIR)/%.c
-					@mkdir -p $(@D)
-					$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c $(HEADER)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-					$(RM) $(OBJ_DIR)
+	$(RM) $(OBJ_DIR)
 
-fclean:             clean
-					$(RM) $(NAME)
+fclean: clean
+	$(RM) $(NAME)
 
-re:                 fclean all
-
--include $(DEPS)
-
-.PHONY:             all clean fclean re
+re: fclean all
