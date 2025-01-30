@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 23:15:56 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 13:29:52 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	current_index(t_stack_node *stack)
 		else
 			stack->above_median_line = 0;
 		stack = stack->next;
-		++i;
+		i++;
 	}
 }
 
