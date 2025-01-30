@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 23:15:42 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 20:43:58 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,10 @@ void			move_a_2_b(t_stack_node **a, t_stack_node **b);
 void			prep_for_push(t_stack_node **stack, t_stack_node *top_node,
 					char stack_name);
 void			move_b_2_a(t_stack_node **a, t_stack_node **b);
+
+char	**split_args(int ac, char **av);
+int		ft_strslen(char **strs);
+void	free_strs(char **strs);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif
