@@ -6,28 +6,33 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 21:48:52 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 22:10:01 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-int	syntax_error(char *str_n)
+int syntax_error(char *str_n)
 {
-	if (!(*str_n == '+'
-			|| *str_n == '-'
-			|| (*str_n >= '0' && *str_n <= '9')))
-		return (1);
-	if ((*str_n == '+'
-			|| *str_n == '-')
-		&& !(str_n[1] >= '0' && str_n[1] <= '9'))
-		return (1);
-	while (*++str_n)
-	{
-		if (!(*str_n >= '0' && *str_n <= '9'))
-			return (1);
-	}
-	return (0);
+    int len = 0;
+    char *s = str_n;
+
+    if (!(*s == '+' || *s == '-' || (*s >= '0' && *s <= '9')))
+        return (1);
+    if ((*s == '+' || *s == '-') && !(s[1] >= '0' && s[1] <= '9'))
+        return (1);
+    if (*s == '+' || *s == '-')
+        s++;
+    while (*s)
+    {
+        if (!(*s >= '0' && *s <= '9'))
+            return (1);
+        len++;
+        s++;
+    }
+    if (len > 18)
+        return (1);
+    return (0);
 }
 
 int	error_duplicate(t_stack_node *a, int n)
