@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 20:35:32 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 21:48:52 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ void	free_stack(t_stack_node **stack)
 	*stack = NULL;
 }
 
-void	free_error(t_stack_node **a)
+void	free_error(t_stack_node **a, char **split_av)
 {
-	free_stack(a);
-	ft_putstr("Error\n");
-	exit(1);
+    free_stack(a);
+    free_strs(split_av);
+    ft_putstr("Error\n");
+    exit(1);
 }
 
 t_stack_node	*get_cheapest(t_stack_node *stack)
@@ -189,33 +190,31 @@ char	**split_args(int ac, char **av)
 	if (!result)
 		return (NULL);
 	k = 0;
-	i = 1;
-	while (i < ac)
-	{
-		temp = split(av[i], ' ');
-		if (!temp)
-		{
-			free_strs(result);
-			return (NULL);
-		}
-		j = 0;
-		// while (temp[j])
-		// 	result[k++] = ft_strdup(temp[j++]);
-		// free_strs(temp);
-		while (temp[j])
-		{
-    		result[k] = ft_strdup(temp[j]);
-    		if (!result[k])
-    		{
-    		    free_strs(temp);   // Free temp array
-    		    free_strs(result); // Free result array
-    		    return (NULL);
-    		}
-    		k++;
-    		j++;
-		}
-		i++;
-	}
-	result[k] = NULL;
-	return (result);
+    i = 1;
+    while (i < ac)
+    {
+        temp = split(av[i], ' ');
+        if (!temp)
+        {
+            free_strs(result);
+            return (NULL);
+        }
+        j = 0;
+        while (temp[j])
+        {
+            result[k] = ft_strdup(temp[j]);
+            if (!result[k])
+            {
+                free_strs(temp);
+                free_strs(result);
+                return (NULL);
+            }
+            k++;
+            j++;
+        }
+        free_strs(temp); // Free the temporary split array
+        i++;
+    }
+    result[k] = NULL;
+    return (result);
 }

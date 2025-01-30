@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 20:43:58 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 21:52:30 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				stack_length(t_stack_node *stack);
 t_stack_node	*last_node(t_stack_node *stack);
 int				ft_isdigit(int c);
 char			**split(char *s, char c);
-void			free_error(t_stack_node **a);
+void	free_error(t_stack_node **a, char **split_av);
 void			free_stack(t_stack_node **stack);
 long			ft_atol(const char *s);
 int				syntax_error(char *str_n);
@@ -67,7 +67,7 @@ int				stack_sorted(t_stack_node *stack);
 t_stack_node	*find_min_node(t_stack_node *stack);
 t_stack_node	*find_max_node(t_stack_node *stack);
 void			append_node(t_stack_node **stack, int n);
-void			init_stack_a(t_stack_node **a, char **av);
+void			init_stack_a(t_stack_node **a, char **av, char **split_av);
 void			set_cheapest_node(t_stack_node *stack);
 void			min_on_top(t_stack_node **a);
 void			sort_three(t_stack_node **a);

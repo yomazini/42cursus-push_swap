@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 20:43:53 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 21:51:18 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 		ft_putstr("Error\n");
 		return (1);
 	}
-	init_stack_a(&a, split_av);	
+	init_stack_a(&a, split_av, split_av);	
 	free_strs(split_av);
 	if (!stack_sorted(a))
 	{

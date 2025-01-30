@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 22:15:29 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/30 21:50:01 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	append_node(t_stack_node **stack, int n)
 	}
 }
 
-void	init_stack_a(t_stack_node **a, char **av)
+void	init_stack_a(t_stack_node **a, char **av, char **split_av)
 {
 	long	nmr;
 	int		number;
@@ -48,13 +48,13 @@ void	init_stack_a(t_stack_node **a, char **av)
 	while (av[i])
 	{
 		if (syntax_error(av[i]))
-			free_error(a);
+			free_error(a, split_av);
 		nmr = ft_atol(av[i]);
 		if (nmr < INT_MIN || nmr > INT_MAX)
-			free_error(a);
+			free_error(a, split_av);
 		number = (int)nmr;
 		if (error_duplicate(*a, number))
-			free_error(a);
+			free_error(a, split_av);
 		append_node(a, number);
 		i++;
 	}
