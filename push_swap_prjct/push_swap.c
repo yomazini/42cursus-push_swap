@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:24:22 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 21:51:18 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 15:04:45 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ int	main(int ac, char **av)
 		return (1);
 	split_av = split_args(ac, av);
 	if (!split_av || !*split_av)
-	{
-		free_strs(split_av);
-		ft_putstr("Error\n");
-		return (1);
-	}
-	init_stack_a(&a, split_av, split_av);	
+		return (free_strs(split_av), ft_putstr("Error\n"), 1);
+	init_stack_a(&a, split_av, split_av);
 	free_strs(split_av);
 	if (!stack_sorted(a))
 	{

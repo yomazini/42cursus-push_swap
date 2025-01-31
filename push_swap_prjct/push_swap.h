@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 21:52:30 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 14:59:00 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				stack_length(t_stack_node *stack);
 t_stack_node	*last_node(t_stack_node *stack);
 int				ft_isdigit(int c);
 char			**split(char *s, char c);
-void	free_error(t_stack_node **a, char **split_av);
+void			free_error(t_stack_node **a, char **split_av);
 void			free_stack(t_stack_node **stack);
 long			ft_atol(const char *s);
 int				syntax_error(char *str_n);
@@ -80,10 +80,9 @@ void			move_a_2_b(t_stack_node **a, t_stack_node **b);
 void			prep_for_push(t_stack_node **stack, t_stack_node *top_node,
 					char stack_name);
 void			move_b_2_a(t_stack_node **a, t_stack_node **b);
-
-char	**split_args(int ac, char **av);
-int		ft_strslen(char **strs);
-void	free_strs(char **strs);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char			**split_args(int ac, char **av);
+int				ft_strslen(char **strs);
+size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void			free_strs(char **strs);
 
 #endif

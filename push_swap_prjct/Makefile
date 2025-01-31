@@ -15,6 +15,7 @@ OBJS = \
 	$(OBJ_DIR)/parsing/libft_tools.o \
 	$(OBJ_DIR)/parsing/split.o \
 	$(OBJ_DIR)/parsing/validating.o \
+	$(OBJ_DIR)/parsing/validating2.o \
 	$(OBJ_DIR)/tools/initialiase_a_2_b.o \
 	$(OBJ_DIR)/tools/initialiase_b_2_a.o \
 	$(OBJ_DIR)/tools/stack_helpers.o \

@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:26 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 20:43:49 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 15:28:50 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static char	*extract_word(char *s, char c, int *index)
 	return (word);
 }
 
+static void	init_vars_4_split(int *i, int *j)
+{
+	*i = 0;
+	*j = -1;
+}
+
 char	**split(char *s, char c)
 {
 	int		word_count;
@@ -64,25 +70,21 @@ char	**split(char *s, char c)
 	if (!s || !*s)
 		return (NULL);
 	word_count = count_words(s, c);
+	init_vars_4_split(&i, &j);
 	if (!word_count)
 		return (NULL);
 	result = malloc(sizeof(char *) * (word_count + 1));
 	if (!result)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (j < word_count)
+	while (++j < word_count)
 	{
 		result[j] = extract_word(s, c, &i);
 		if (!result[j])
 		{
 			while (j-- > 0)
 				free(result[j]);
-			free(result);
-			return (NULL);
+			return (free(result), NULL);
 		}
-		j++;
 	}
-	result[j] = NULL;
-	return (result);
+	return (result[j] = NULL, result);
 }
