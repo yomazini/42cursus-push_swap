@@ -6,71 +6,37 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:36:07 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 16:23:58 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 21:19:22 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-static char	*read_line(int fd, char **saved)
-{
-	char	*buffer;
-	char	*temp;
-	ssize_t	bytes_read;
-
-	buffer = malloc((size_t)BUFFER_SIZE + 1);
-	if (!buffer)
-		return (free(*saved), *saved = NULL, NULL);
-	while (!ft_strchr(*saved, '\n'))
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-			return (free(buffer), free(*saved), *saved = NULL, NULL);
-		if (bytes_read == 0)
-			break ;
-		buffer[bytes_read] = '\0';
-		temp = *saved;
-		*saved = ft_strjoin(*saved, buffer);
-		free(temp);
-		if (!*saved)
-			return (free(buffer), NULL);
-	}
-	return (free(buffer), *saved);
-}
-
-static char	*extract_line(char **saved)
-{
-	char	*line;
-	char	*temp;
-	size_t	len;
-
-	if (!*saved || !**saved)
-		return (NULL);
-	len = 0;
-	while ((*saved)[len] && (*saved)[len] != '\n')
-		len++;
-	line = ft_substr(*saved, 0, len + ((*saved)[len] == '\n'));
-	temp = *saved;
-	*saved = ft_strdup(*saved + len + ((*saved)[len] == '\n'));
-	free(temp);
-	if (!line || !*saved)
-		return (free(line), NULL);
-	return (line);
-}
-
 char	*get_next_line(int fd)
 {
-	static char	*saved;
+	static char	*buf;
 	char		*line;
+	int			read_size;
+	char		temp[BUFFER_SIZE + 1];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!saved)
-		saved = ft_strdup("");
-	if (!saved || !read_line(fd, &saved))
-		return (free(saved), saved = NULL, NULL);
-	line = extract_line(&saved);
-	if (!line)
-		return (free(saved), saved = NULL, NULL);
+	while (!gnl_strchr(buf, '\n'))
+	{
+		read_size = read(fd, temp, BUFFER_SIZE);
+		if (read_size < 0)
+			return (free(buf), buf = NULL, NULL);
+		if (read_size == 0)
+			break ;
+		temp[read_size] = 0;
+		buf = gnl_strjoin(buf, temp);
+	}
+	if (!buf)
+		return (NULL);
+	line = gnl_strjoin(NULL, buf);
+	if (gnl_strchr(buf, '\n'))
+		buf = gnl_strjoin(buf + gnl_strlen(line), NULL);
+	else
+		free(buf), buf = NULL;
 	return (line);
 }
