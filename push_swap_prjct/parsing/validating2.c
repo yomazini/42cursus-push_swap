@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:30:46 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 16:21:28 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:20:28 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,61 +33,6 @@ int	ft_strslen(char **strs)
 		i++;
 	return (i);
 }
-
-// static int	count_total_words(int ac, char **av)
-// {
-// 	int		total;
-// 	int		i;
-// 	char	**temp;
-
-// 	total = 0;
-// 	i = 1;
-// 	while (i < ac)
-// 	{
-// 		temp = split(av[i], ' ');
-// 		if (!temp)
-// 			return (-1);
-// 		total += ft_strslen(temp);
-// 		free_strs(temp);
-// 		i++;
-// 	}
-// 	return (total);
-// }
-
-// static void	init_var_4_split_args(int *k, int *i)
-// {
-// 	*k = -1;
-// 	*i = 0;
-// }
-
-// char	**split_args(int ac, char **av)
-// {
-// 	char	**result;
-// 	char	**temp;
-// 	int		i;
-// 	int		j;
-// 	int		k;
-
-// 	result = malloc(sizeof(char *) * (count_total_words(ac, av) + 1));
-// 	if (!result)
-// 		return (NULL);
-// 	init_var_4_split_args(&k, &i);
-// 	while (++i < ac)
-// 	{
-// 		temp = split(av[i], ' ');
-// 		if (!temp)
-// 			return (free_strs(result), NULL);
-// 		j = -1;
-// 		while (temp[++j])
-// 		{
-// 			result[++k] = ft_strdup(temp[j]);
-// 			if (!result[k])
-// 				return (free_strs(temp), free_strs(result), NULL);
-// 		}
-// 		free_strs(temp);
-// 	}
-// 	return (result[k] = NULL, result);
-// }
 
 static int	count_total_words(int ac, char **av)
 {
@@ -138,7 +83,7 @@ char	**split_args(int ac, char **av)
 	int		total_words;
 
 	total_words = count_total_words(ac, av);
-	if (total_words == -1)
+	if (total_words <= 0)
 		return (NULL);
 	result = malloc(sizeof(char *) * (total_words + 1));
 	if (!result)

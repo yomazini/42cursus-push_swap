@@ -6,23 +6,41 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 22:22:11 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:40:47 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
+// void	ft_swap_node(t_stack_node **head)
+// {
+// 	if (!*head || !(*head)->next)
+// 		return ;
+// 	*head = (*head)->next;
+// 	(*head)->previous->previous = *head;
+// 	(*head)->previous->next = (*head)->next;
+// 	if ((*head)->next)
+// 		(*head)->next->previous = (*head)->previous;
+// 	(*head)->next = (*head)->previous;
+// 	(*head)->previous = NULL;
+// }
+
 void	ft_swap_node(t_stack_node **head)
 {
+	t_stack_node	*first;
+	t_stack_node	*second;
+
 	if (!*head || !(*head)->next)
 		return ;
-	*head = (*head)->next;
-	(*head)->previous->previous = *head;
-	(*head)->previous->next = (*head)->next;
-	if ((*head)->next)
-		(*head)->next->previous = (*head)->previous;
-	(*head)->next = (*head)->previous;
-	(*head)->previous = NULL;
+	first = *head;
+	second = first->next;
+	first->next = second->next;
+	if (second->next)
+		second->next->previous = first;
+	second->previous = first->previous;
+	first->previous = second;
+	second->next = first;
+	*head = second;
 }
 
 void	sa(t_stack_node	**a, int testing)

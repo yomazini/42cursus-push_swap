@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 21:50:01 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:41:20 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	append_node(t_stack_node **stack, int n)
 		return ;
 	node = malloc(sizeof(t_stack_node));
 	if (!node)
-		return ;
+		free_error(stack, NULL);
 	node->next = NULL;
 	node->value = n;
 	node->cheapest = 0;
