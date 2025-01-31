@@ -29,12 +29,12 @@ SHARED_OBJS = \
 PUSH_SWAP_OBJS = $(SHARED_OBJS) \
 	$(OBJ_DIR)/push_swap.o
 
-# checker-specific objects (shared + checker/*.o)
+# checker-specific objects (shared + src_checker/*.o)
 CHECKER_OBJS = $(SHARED_OBJS) \
-	$(OBJ_DIR)/checker/checker.o \
-	$(OBJ_DIR)/checker/execute_commands.o \
-	$(OBJ_DIR)/checker/get_next_line.o \
-	$(OBJ_DIR)/checker/get_next_line_utils.o
+	$(OBJ_DIR)/src_checker/checker.o \
+	$(OBJ_DIR)/src_checker/execute_commands.o \
+	$(OBJ_DIR)/src_checker/get_next_line.o \
+	$(OBJ_DIR)/src_checker/get_next_line_utils.o
 
 all: $(NAME)
 

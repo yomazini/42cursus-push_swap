@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:36:10 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 21:19:48 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 21:41:08 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char	*gnl_strjoin(char *s1, char *s2)
 
 	new = malloc(gnl_strlen(s1) + gnl_strlen(s2) + 1);
 	if (!new)
-		return (free(s1), NULL);
+		return (NULL); // Do not free s1 here
+
 	i = 0;
 	j = 0;
 	while (s1 && s1[j])
@@ -50,6 +51,6 @@ char	*gnl_strjoin(char *s1, char *s2)
 	while (s2 && s2[j])
 		new[i++] = s2[j++];
 	new[i] = 0;
-	free(s1);
+
 	return (new);
 }

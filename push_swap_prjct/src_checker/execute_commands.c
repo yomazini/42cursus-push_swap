@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:18:56 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 21:19:00 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 22:09:43 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,41 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 static int	is_valid(char *cmd)
 {
-	const char	*cmds[] = {"pa\n", "pb\n", "sa\n", "sb\n", "ss\n",
-		"ra\n", "rb\n", "rr\n", "rra\n", "rrb\n", "rrr\n", NULL};
+	const char	*cmds[] = {"pa", "pb", "sa", "sb", "ss",
+		"ra", "rb", "rr", "rra", "rrb", "rrr", NULL};
 	int			i;
+	size_t		cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	if (cmd_len > 0 && cmd[cmd_len - 1] == '\n')
+		cmd[cmd_len - 1] = '\0';
 
 	i = -1;
 	while (cmds[++i])
-		if (!ft_strncmp(cmd, cmds[i], ft_strlen(cmds[i])))
+	{
+		if (ft_strcmp(cmd, (char *)cmds[i]) == 0)
 			return (1);
+	}
 	return (0);
 }
 
 int	execute(char *cmd, t_stack_node **a, t_stack_node **b)
 {
-	if (!ft_strcmp(cmd, "pa\n")) return (pa(a, b, 1), 1);
-	if (!ft_strcmp(cmd, "pb\n")) return (pb(b, a, 1), 1);
-	if (!ft_strcmp(cmd, "sa\n")) return (sa(a, 1), 1);
-	if (!ft_strcmp(cmd, "sb\n")) return (sb(b, 1), 1);
-	if (!ft_strcmp(cmd, "ss\n")) return (ss(a, b, 1), 1);
-	if (!ft_strcmp(cmd, "ra\n")) return (ra(a, 1), 1);
-	if (!ft_strcmp(cmd, "rb\n")) return (rb(b, 1), 1);
-	if (!ft_strcmp(cmd, "rr\n")) return (rr(a, b, 1), 1);
-	if (!ft_strcmp(cmd, "rra\n")) return (rra(a, 1), 1);
-	if (!ft_strcmp(cmd, "rrb\n")) return (rrb(b, 1), 1);
-	if (!ft_strcmp(cmd, "rrr\n")) return (rrr(a, b, 1), 1);
+	size_t	len = ft_strlen(cmd);
+	if (len > 0 && cmd[len - 1] == '\n')
+		cmd[len - 1] = '\0';
+
+	if (ft_strcmp(cmd, "pa") == 0) return (pa(a, b, 1), 1);
+	if (ft_strcmp(cmd, "pb") == 0) return (pb(b, a, 1), 1);
+	if (ft_strcmp(cmd, "sa") == 0) return (sa(a, 1), 1);
+	if (ft_strcmp(cmd, "sb") == 0) return (sb(b, 1), 1);
+	if (ft_strcmp(cmd, "ss") == 0) return (ss(a, b, 1), 1);
+	if (ft_strcmp(cmd, "ra") == 0) return (ra(a, 1), 1);
+	if (ft_strcmp(cmd, "rb") == 0) return (rb(b, 1), 1);
+	if (ft_strcmp(cmd, "rr") == 0) return (rr(a, b, 1), 1);
+	if (ft_strcmp(cmd, "rra") == 0) return (rra(a, 1), 1);
+	if (ft_strcmp(cmd, "rrb") == 0) return (rrb(b, 1), 1);
+	if (ft_strcmp(cmd, "rrr") == 0) return (rrr(a, b, 1), 1);
 	return (0);
 }
 
@@ -83,6 +94,13 @@ void	execute_commands(t_stack_node **a, t_stack_node **b)
 	cmd = get_next_line(0);
 	while (cmd)
 	{
+		// Skip empty lines or lines with only a newline
+		if (cmd[0] == '\0' || (cmd[0] == '\n' && cmd[1] == '\0'))
+		{
+			free(cmd);
+			cmd = get_next_line(0);
+			continue;
+		}
 		if (!is_valid(cmd) || !execute(cmd, a, b))
 		{
 			free(cmd);
