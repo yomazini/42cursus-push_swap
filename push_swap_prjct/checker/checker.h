@@ -6,15 +6,15 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:38:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 22:42:03 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 16:23:42 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHECKER_H
 # define CHECKER_H
 
-#include <unistd.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
