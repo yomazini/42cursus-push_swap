@@ -13,6 +13,7 @@ OBJS = \
 	$(OBJ_DIR)/moves/rrotating.o \
 	$(OBJ_DIR)/moves/swaping.o \
 	$(OBJ_DIR)/parsing/libft_tools.o \
+	$(OBJ_DIR)/parsing/libft_tools1.o \
 	$(OBJ_DIR)/parsing/split.o \
 	$(OBJ_DIR)/parsing/validating.o \
 	$(OBJ_DIR)/parsing/validating2.o \

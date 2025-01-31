@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 21:52:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 14:59:00 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/01/31 15:48:39 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char			**split(char *s, char c);
 void			free_error(t_stack_node **a, char **split_av);
 void			free_stack(t_stack_node **stack);
 long			ft_atol(const char *s);
-int				syntax_error(char *str_n);
+int				syntax_error(char *s);
 int				error_duplicate(t_stack_node *a, int n);
 void			push(t_stack_node **dst, t_stack_node **src);
 void			pa(t_stack_node **a, t_stack_node **b, int testing);
@@ -84,5 +84,6 @@ char			**split_args(int ac, char **av);
 int				ft_strslen(char **strs);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void			free_strs(char **strs);
+char			*ft_strdup(const char *src);
 
 #endif
