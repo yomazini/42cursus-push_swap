@@ -4,53 +4,49 @@
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 22:36:10 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 21:41:08 by ymazini          ###   ########.fr       */
+/*   Created: 2024/11/29 18:18:22 by ymazini           #+#    #+#             */
+/*   Updated: 2025/01/20 12:02:05 by ymazini          #+#    #+#             */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-size_t	gnl_strlen(char *s)
+char    *ft_strchr(const char *s, int c)
 {
-	size_t	i;
+    char    *str;
 
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+    str = (char *)s;
+    while (*str)
+    {
+        if (*str == (char)c)
+            return (str);
+        str++;
+    }
+    if (*str == (char)c)
+        return (str);
+    return (NULL);
 }
 
-int	gnl_strchr(char *s, char c)
+char    *ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
+    size_t  len1;
+    size_t  len2;
+    char    *str;
 
-	i = -1;
-	while (s && s[++i])
-		if (s[i] == c)
-			return (1);
-	return (0);
-}
-
-char	*gnl_strjoin(char *s1, char *s2)
-{
-	char	*new;
-	int		i;
-	int		j;
-
-	new = malloc(gnl_strlen(s1) + gnl_strlen(s2) + 1);
-	if (!new)
-		return (NULL); // Do not free s1 here
-
-	i = 0;
-	j = 0;
-	while (s1 && s1[j])
-		new[i++] = s1[j++];
-	j = 0;
-	while (s2 && s2[j])
-		new[i++] = s2[j++];
-	new[i] = 0;
-
-	return (new);
+    len1 = 0;
+    len2 = 0;
+    if (!s1 && !s2)
+        return (NULL);
+    if (!s1)
+        return (ft_strdup(s2));
+    if (!s2)
+        return (ft_strdup(s1));
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    str = (char *)malloc(len1 + len2 + 1);
+    if (!str)
+        return (NULL);
+    ft_memcpy(str, s1, len1);
+    ft_memcpy(str + len1, s2, len2 + 1);
+    return (str);
 }

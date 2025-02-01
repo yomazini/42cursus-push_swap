@@ -5,31 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 22:38:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 21:20:35 by ymazini          ###   ########.fr       */
+/*   Created: 2025/01/20 12:00:03 by ymazini           #+#    #+#             */
+/*   Updated: 2025/02/01 18:54:35 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHECKER_H
 # define CHECKER_H
+
+# include <stdlib.h>
+# include <unistd.h>
 # include "../push_swap.h"
 
-# define BUFFER_SIZE 42
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4
+# endif
 
-// Checker main
-void	checker(t_stack_node **a, t_stack_node **b);
-
-// Command execution
-void	execute_commands(t_stack_node **a, t_stack_node **b);
-int		execute(char *cmd, t_stack_node **a, t_stack_node **b);
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ft_strcmp(char *s1, char *s2);
-
-// GNL
-char	*get_next_line(int fd);
-char	*gnl_strjoin(char *s1, char *s2);
-int		gnl_strchr(char *s, char c);
-size_t	gnl_strlen(char *s);
+char    *get_next_line(int fd);
+char    **ft_split(char const *s, char c);
+int     handle_str(const char *str);
+void    ft_error(t_stack_node **stack, char **strs);
+long    ft_atol1(const char *str, t_stack_node **stack, char **strs);
+int     ft_strncmp(const char *s1, const char *s2, size_t n);
+void	 error(t_stack_node **a, t_stack_node **b, char *line);
+char    *ft_strchr(const char *s, int c);
+char    *ft_strdup(const char *s1);
+char    *ft_strjoin(char const *s1, char const *s2);
+void    *ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
