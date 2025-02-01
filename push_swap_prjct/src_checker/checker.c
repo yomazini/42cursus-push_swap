@@ -4,43 +4,13 @@
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+        */
-/*   Created: 2025/01/20 11:45:27 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/22 15:04:49 by ymazini          #+#    #+#             */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/01 22:22:36 by ymazini           #+#    #+#             */
+/*   Updated: 2025/02/01 22:47:52 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
-
-void    initialize_stack(t_stack_node **stack, int ac, char **av)
-{
-    char    **strs;
-    int     i;
-    long    n;
-
-    while (--ac)
-    {
-        strs = ft_split(*++av, ' ');
-        i = 0;
-        while (strs[i])
-        {
-            if (!handle_str(strs[i]))
-                ft_error(stack, strs);
-            n = ft_atol1(strs[i++], stack, strs);
-            if (n > INT_MAX || n < INT_MIN)
-                ft_error(stack, strs);
-            append_node(stack, (int)n);
-        }
-        free_strs(strs);
-    }
-}
-
-void error(t_stack_node **a, t_stack_node **b, char *line)
-{
-    free_stack(b);
-    free(line);
-    ft_error(a, NULL);
-}
 
 static void parse_command(t_stack_node **a, t_stack_node **b, char *command)
 {
@@ -76,25 +46,6 @@ static void init_var(t_stack_node **stack_a, t_stack_node **stack_b, int *len)
     *stack_a = NULL;
     *stack_b = NULL;
 }
-int has_duplicates(t_stack_node *stack)
-{
-    t_stack_node *current; 
-    t_stack_node *runner;
-
-    current = stack;
-    while (current != NULL)
-    {
-        runner = current->next;
-        while (runner != NULL)
-        {
-            if (current->value == runner->value)
-                return (1);
-            runner = runner->next;
-        }
-        current = current->next;
-    }
-    return (0);
-}
 
 int main(int ac, char **av)
 {
@@ -105,10 +56,9 @@ int main(int ac, char **av)
 
     if (ac > 1)
     {
-        // Check for empty string arguments
         for (int i = 1; i < ac; i++)
         {
-            if (av[i][0] == '\0') // Empty string argument detected
+            if (av[i][0] == '\0')
             {
                 write(2, "Error\n", 6);
                 exit(1);
