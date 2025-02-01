@@ -78,7 +78,7 @@ static void init_var(t_stack_node **stack_a, t_stack_node **stack_b, int *len)
 }
 int has_duplicates(t_stack_node *stack)
 {
-    t_stack_node *current;
+    t_stack_node *current; 
     t_stack_node *runner;
 
     current = stack;
@@ -105,6 +105,15 @@ int main(int ac, char **av)
 
     if (ac > 1)
     {
+        // Check for empty string arguments
+        for (int i = 1; i < ac; i++)
+        {
+            if (av[i][0] == '\0') // Empty string argument detected
+            {
+                write(2, "Error\n", 6);
+                exit(1);
+            }
+        }
         init_var(&stack_a, &stack_b, &len);
         initialize_stack(&stack_a, ac, av);
         if (!stack_a || has_duplicates(stack_a))
@@ -117,11 +126,11 @@ int main(int ac, char **av)
             free(next_line);
             next_line = get_next_line(0);
         }
-		if (stack_sorted(stack_a) && stack_b == NULL)
-   		 	write(1, "OK\n", 3);
-		else
-   		 	write(1, "KO\n", 3);
+        if (stack_sorted(stack_a) && stack_b == NULL)
+            write(1, "OK\n", 3);
+        else
+            write(1, "KO\n", 3);
         free_stack(&stack_a);
-		free_stack(&stack_b); 
+        free_stack(&stack_b);
     }
 }

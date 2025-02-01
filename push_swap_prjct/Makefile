@@ -1,13 +1,11 @@
 NAME = push_swap
-
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
-
 OBJ_DIR = obj
-HEADER = push_swap.h
+HEADER_PUSH_SWAP = push_swap.h
+HEADER_CHECKER = src_checker/checker.h
 
-# Shared objects (used by both push_swap and checker)
 SHARED_OBJS = \
 	$(OBJ_DIR)/moves/pushing.o \
 	$(OBJ_DIR)/moves/rotating.o \
@@ -25,11 +23,8 @@ SHARED_OBJS = \
 	$(OBJ_DIR)/turkalgo/three_sort.o \
 	$(OBJ_DIR)/turkalgo/turk_sort.o
 
-# push_swap-specific objects (shared + push_swap.o)
 PUSH_SWAP_OBJS = $(SHARED_OBJS) \
 	$(OBJ_DIR)/push_swap.o
-
-# checker-specific objects (shared + src_checker/*.o)
 
 CHECKER_OBJS = $(SHARED_OBJS) \
 	$(OBJ_DIR)/src_checker/checker.o \
@@ -43,10 +38,16 @@ all: $(NAME)
 $(NAME): $(PUSH_SWAP_OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-bonus: $(CHECKER_OBJS)
-	$(CC) $(CFLAGS) $^ -o checker
+checker: $(CHECKER_OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
 
-$(OBJ_DIR)/%.o: %.c $(HEADER)
+bonus: checker
+
+$(OBJ_DIR)/%.o: %.c $(HEADER_PUSH_SWAP)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/src_checker/%.o: src_checker/%.c $(HEADER_CHECKER) $(HEADER_PUSH_SWAP)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -57,5 +58,3 @@ fclean: clean
 	$(RM) $(NAME) checker
 
 re: fclean all
-
-.PHONY: all clean fclean re bonus

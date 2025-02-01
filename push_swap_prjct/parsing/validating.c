@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/02/01 19:37:40 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/01 22:17:59 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	free_error(t_stack_node **a, char **split_av)
 {
 	free_stack(a);
 	free_strs(split_av);
-	write(2, "Error\n", 6);  // Redirect error to stderr
+	write(2, "Error\n", 6);
 	exit(1);
 }
 

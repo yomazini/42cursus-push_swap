@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:00:03 by ymazini           #+#    #+#             */
-/*   Updated: 2025/02/01 18:54:35 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/01 22:08:25 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define CHECKER_H
 
 # include <stdlib.h>
-# include <unistd.h>
+# include <unistd.h> 
 # include "../push_swap.h"
-
+  
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4
 # endif
-
+ 
 char    *get_next_line(int fd);
 char    **ft_split(char const *s, char c);
 int     handle_str(const char *str);
