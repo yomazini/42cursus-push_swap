@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/31 19:41:20 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:30:27 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	rotate_a_n_b(t_stack_node **a,
 	while (*b != cheapest_node->target_node
 		&& *a != cheapest_node)
 		rr(a, b, 0);
-	current_index(*a);
 	current_index(*b);
+	current_index(*a);
 }
 
 void	rev_rotate_a_n_b(t_stack_node **a,
@@ -98,6 +98,6 @@ void	rev_rotate_a_n_b(t_stack_node **a,
 	while (*b != cheapest_node->target_node
 		&& *a != cheapest_node)
 		rrr(a, b, 0);
-	current_index(*a);
 	current_index(*b);
+	current_index(*a);
 }

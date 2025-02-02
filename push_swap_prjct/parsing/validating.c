@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/02/01 22:17:59 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:38:31 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,17 @@ int	error_duplicate(t_stack_node *a, int n)
 
 void	free_stack(t_stack_node **stack)
 {
-	t_stack_node	*tmp;
-	t_stack_node	*current;
+	t_stack_node	*temp;
+	t_stack_node	*curnt;
 
 	if (!stack)
 		return ;
-	current = *stack;
-	while (current)
+	curnt = *stack;
+	while (curnt)
 	{
-		tmp = current->next;
-		current->value = 0;
-		free(current);
-		current = tmp;
+		temp = curnt->next;
+		free(curnt);
+		curnt = temp;
 	}
 	*stack = NULL;
 }

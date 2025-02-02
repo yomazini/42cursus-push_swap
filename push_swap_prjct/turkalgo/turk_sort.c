@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:20:41 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 17:01:04 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:26:09 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	prep_for_push(t_stack_node **stack,
 {
 	while (*stack != top_node)
 	{
-		if (stack_name == 'a')
-		{
-			if (top_node->above_median_line)
-				ra(stack, 0);
-			else
-				rra(stack, 0);
-		}
-		else if (stack_name == 'b')
+		if (stack_name == 'b')
 		{
 			if (top_node->above_median_line)
 				rb(stack, 0);
 			else
 				rrb(stack, 0);
+		}
+		else if (stack_name == 'a')
+		{
+			if (top_node->above_median_line)
+				ra(stack, 0);
+			else
+				rra(stack, 0);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:21:38 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/30 13:29:52 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:36:33 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,19 @@
 void	current_index(t_stack_node *stack)
 {
 	int	i;
-	int	median;
 
 	i = 0;
 	if (!stack)
 		return ;
-	median = len_stack(stack) / 2;
 	while (stack)
 	{
 		stack->indexing = i;
-		if (i <= median)
+		if (i <= len_stack(stack) / 2)
 			stack->above_median_line = 1;
 		else
 			stack->above_median_line = 0;
-		stack = stack->next;
 		i++;
+		stack = stack->next;
 	}
 }
 
