@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:19:21 by ymazini           #+#    #+#             */
-/*   Updated: 2025/02/02 16:38:31 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:05:50 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 int	syntax_error(char *s)
 {
+	int	i;
 	int	len;
 
+	i = 0;
 	len = 0;
-	if (!(*s == '+' || *s == '-' || (*s >= '0' && *s <= '9')))
+	if (!(s[i] == '+' || s[i] == '-' || ft_isdigit(s[i])))
 		return (1);
-	if ((*s == '+' || *s == '-') && !(s[1] >= '0' && s[1] <= '9'))
+	if ((s[i] == '+' || s[i] == '-') && !ft_isdigit(s[++i]))
 		return (1);
-	if (*s == '+' || *s == '-')
-		s++;
-	while (*s)
+	while (s[i])
 	{
-		if (!(*s >= '0' && *s <= '9'))
+		if (!ft_isdigit(s[i]))
 			return (1);
 		len++;
-		s++;
+		i++;
 	}
 	if (len > 18)
 		return (1);

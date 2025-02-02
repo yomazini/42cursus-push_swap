@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:02:59 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 22:33:44 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:10:00 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 void	ft_rev_rotate_node(t_stack_node **stack)
 {
 	t_stack_node	*last;
+	t_stack_node	*new_last;
 
 	if (!*stack || !(*stack)->next)
 		return ;
 	last = last_node(*stack);
-	last->previous->next = NULL;
-	last->next = *stack;
+	new_last = last->previous;
+	new_last->next = NULL;
 	last->previous = NULL;
+	last->next = *stack;
+	(*stack)->previous = last;
 	*stack = last;
-	last->next->previous = last;
 }
 
 void	rra(t_stack_node **a, int testing)

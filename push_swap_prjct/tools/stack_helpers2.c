@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:36:00 by ymazini           #+#    #+#             */
-/*   Updated: 2025/02/02 16:30:27 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:08:23 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,23 @@ void	init_stack_a(t_stack_node **a, char **av, char **split_av)
 
 void	set_cheapest_node(t_stack_node *stack)
 {
-	long			cheapest_value;
-	t_stack_node	*cheapest_node;
+	long			min_cost;
+	t_stack_node	*cheapest;
 
 	if (!stack)
 		return ;
-	cheapest_value = LONG_MAX;
+	min_cost = LONG_MAX;
+	cheapest = stack;
 	while (stack)
 	{
-		if (stack->push_cost < cheapest_value)
+		if (stack->push_cost < min_cost)
 		{
-			cheapest_value = stack->push_cost;
-			cheapest_node = stack;
+			min_cost = stack->push_cost;
+			cheapest = stack;
 		}
 		stack = stack->next;
 	}
-	cheapest_node->cheapest = 1;
+	cheapest->cheapest = 1;
 }
 
 void	rotate_a_n_b(t_stack_node **a,

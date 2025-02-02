@@ -1,6 +1,6 @@
 NAME = push_swap
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 OBJ_DIR = obj
 HEADER_PUSH_SWAP = push_swap.h
@@ -48,7 +48,7 @@ $(OBJ_DIR)/%.o: %.c $(HEADER_PUSH_SWAP)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/src_checker/%.o: src_checker/%.c $(HEADER_CHECKER) $(HEADER_PUSH_SWAP)
-	@mkdir -p $(@D)
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

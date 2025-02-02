@@ -6,7 +6,7 @@
 /*   By: ymazini <ymazini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:09:54 by ymazini           #+#    #+#             */
-/*   Updated: 2025/01/29 22:32:34 by ymazini          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:09:03 by ymazini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	push(t_stack_node **dst, t_stack_node **src)
 {
-	t_stack_node	*push_node;
+	t_stack_node	*to_push;
 
 	if (!*src)
 		return ;
-	push_node = *src;
+	to_push = *src;
 	*src = (*src)->next;
 	if (*src)
 		(*src)->previous = NULL;
-	push_node->previous = NULL;
+	to_push->previous = NULL;
 	if (!*dst)
 	{
-		*dst = push_node;
-		push_node->next = NULL;
+		*dst = to_push;
+		to_push->next = NULL;
 	}
 	else
 	{
-		push_node->next = *dst;
-		push_node->next->previous = push_node;
-		*dst = push_node;
+		to_push->next = *dst;
+		(*dst)->previous = to_push;
+		*dst = to_push;
 	}
 }
 
