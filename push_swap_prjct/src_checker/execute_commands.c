@@ -86,34 +86,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 
-void	execute_command(t_stack_node **a, t_stack_node **b, char *command)
-{
-	if (!ft_strncmp(command, "pa\n", 3))
-		pa(a, b, 0);
-	else if (!ft_strncmp(command, "pb\n", 3))
-		pb(b, a, 0);
-	else if (!ft_strncmp(command, "sa\n", 3))
-		sa(a, 0);
-	else if (!ft_strncmp(command, "sb\n", 3))
-		sb(b, 0);
-	else if (!ft_strncmp(command, "ss\n", 3))
-		ss(a, b, 0);
-	else if (!ft_strncmp(command, "ra\n", 3))
-		ra(a, 0);
-	else if (!ft_strncmp(command, "rb\n", 3))
-		rb(b, 0);
-	else if (!ft_strncmp(command, "rr\n", 3))
-		rr(a, b, 0);
-	else if (!ft_strncmp(command, "rra\n", 4))
-		rra(a, 0);
-	else if (!ft_strncmp(command, "rrb\n", 4))
-		rrb(b, 0);
-	else if (!ft_strncmp(command, "rrr\n", 4))
-		rrr(a, b, 0);
-	else
-		error(a, b, command);
-}
-
 void	error(t_stack_node **a, t_stack_node **b, char *line)
 {
 	free_stack(b);
