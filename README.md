@@ -154,6 +154,192 @@ valgrind --leak-check=full ./push_swap $ARG
 ```
 
 ---
+# Push_Swap: A Comprehensive Guide to Efficient Stack Sorting "Detailed"
+
+## Introduction
+
+Push_Swap is an algorithmic project that challenges us to sort data using two stacks with a limited set of operations. The goal is to develop a program that calculates and outputs the smallest sequence of operations needed to sort a random list of integers in ascending order using two stacks (A and B).
+
+## Core Concepts
+
+### Stack Structure
+- **Stack A**: Initially contains all input numbers; the first element is considered the top
+- **Stack B**: Initially empty, used as auxiliary storage
+- Both stacks are implemented as linked lists for efficient operations
+
+### Available Operations
+
+1. **Push Operations**
+   - `pa`: Push top element from B to A
+   - `pb`: Push top element from A to B
+
+2. **Swap Operations**
+   - `sa`: Swap top two elements of A
+   - `sb`: Swap top two elements of B
+   - `ss`: Perform both `sa` and `sb` simultaneously
+
+3. **Rotate Operations**
+   - `ra`: Rotate stack A up (first element becomes last)
+   - `rb`: Rotate stack B up (first element becomes last)
+   - `rr`: Perform both `ra` and `rb` simultaneously
+
+4. **Reverse Rotate Operations**
+   - `rra`: Rotate stack A down (last element becomes first)
+   - `rrb`: Rotate stack B down (last element becomes first)
+   - `rrr`: Perform both `rra` and `rrb` simultaneously
+
+## Algorithm Design
+
+### Data Structure
+
+The algorithm uses a linked list structure with enhanced node properties:
+
+```c
+typedef struct s_stack_node {
+    int value;           // The actual number
+    int index;          // Position in sorted sequence (1 to n)
+    int position;       // Current position in stack
+    int target_pos;     // Target position in other stack
+    int cost_a;         // Cost of operations in stack A
+    int cost_b;         // Cost of operations in stack B
+    bool above_median;  // Position relative to stack middle
+    struct s_stack_node *next;
+} t_stack_node;
+```
+
+### Core Algorithm Components
+
+1. **Indexing System**
+   - Convert input values to indices (1 to n) based on their sorted position
+   - Makes comparison and position tracking more straightforward
+   - Example: [-5, 42, 100] becomes indices [1, 2, 3]
+
+2. **Position Tracking**
+   - Continuously track each element's current position in its stack
+   - Position counting starts from 0 at the top
+   - Updated after every operation
+
+3. **Cost Calculation**
+   - Calculate costs for moving elements in both stacks
+   - Consider both rotation directions (up/down)
+   - Track combined costs for simultaneous operations
+
+## Sorting Algorithm
+
+### Small Stack Sorting (≤3 Elements)
+
+For three or fewer elements, use a simplified approach:
+
+1. **Two Elements**: Single swap if needed
+2. **Three Elements**: Maximum of two operations needed
+   ```
+   Case 1: [1,2,3] → No action needed
+   Case 2: [2,1,3] → sa
+   Case 3: [2,3,1] → rra
+   Case 4: [3,1,2] → ra
+   Case 5: [3,2,1] → sa + rra
+   Case 6: [1,3,2] → sa + ra
+   ```
+
+### Large Stack Sorting (>3 Elements)
+
+#### Phase 1: Initial Distribution
+1. Push all elements except three to stack B
+2. Sort remaining three elements in stack A
+3. Use median-based chunking for initial rough sorting
+
+#### Phase 2: Optimal Element Selection
+1. For each element in B:
+   - Calculate current position
+   - Determine target position in A
+   - Compute cost of movement
+   - Consider both rotation directions
+
+#### Phase 3: Cost Calculation
+1. For each element, calculate:
+   - Cost to move to top of B (`cost_b`)
+   - Cost to position stack A (`cost_a`)
+   - Total cost = |cost_a| + |cost_b|
+
+#### Phase 4: Element Movement
+1. Select element with lowest total cost
+2. Execute rotation sequences
+3. Use combined operations (rr/rrr) when possible
+4. Push element to correct position
+
+#### Phase 5: Final Alignment
+1. After B is empty, rotate A until smallest element is at top
+2. Ensure stack is in ascending order
+
+## Implementation Details
+
+### Target Position Calculation
+
+For each element in B, find its target position in A:
+1. If element's index is larger than A's largest → target is A's smallest
+2. Otherwise → target is closest larger index in A
+3. Track position relative to median for optimization
+
+### Cost Optimization
+
+1. **Rotation Direction**
+   - Above median: Use regular rotation
+   - Below median: Use reverse rotation
+   - Store reverse rotations as negative costs
+
+2. **Combined Operations**
+   - Use `rr` when both stacks rotate up
+   - Use `rrr` when both stacks rotate down
+   - Saves operations compared to individual rotations
+
+## Performance Metrics
+
+### Operation Limits for Maximum Score
+- 3 numbers: ≤3 operations
+- 5 numbers: ≤12 operations
+- 100 numbers: ≤700 operations (5 points)
+- 500 numbers: ≤5500 operations (5 points)
+
+### Optimization Techniques
+1. Pre-sort elements during initial push to B
+2. Use median tracking for efficient rotation direction
+3. Leverage combined operations whenever possible
+4. Calculate and compare total costs for all possible moves
+
+## Error Handling
+
+1. **Input Validation**
+   - Check for non-integer values
+   - Detect duplicate numbers
+   - Verify against INT_MIN/INT_MAX limits
+
+2. **Edge Cases**
+   - Handle empty input
+   - Process single number cases
+   - Manage already sorted sequences
+
+## Testing Strategies
+
+1. **Basic Testing**
+   - Verify individual operations
+   - Test error handling
+   - Check edge cases
+
+2. **Performance Testing**
+   - Use random number generators
+   - Test with maximum input sizes
+   - Verify operation counts
+
+3. **Edge Case Testing**
+   - Test with negative numbers
+   - Check boundary values
+   - Verify duplicate handling
+
+## Conclusion
+
+This implementation of Push_Swap combines positional awareness with cost-based decision making to create an efficient sorting algorithm. By carefully tracking positions, calculating costs, and optimizing operations, it achieves performance well within the project requirements while maintaining code clarity and maintainability.
+
+---
 
 ## 📊 Performance Metrics
 | Stack Size | Min Allowed | This Project | Efficiency |  
