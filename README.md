@@ -73,6 +73,161 @@ Push_Swap is a **highly optimized stack-sorting algorithm** that manipulates two
 
 ## 🧮 Algorithm Deep Dive
 
+
+### chart of the Program
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffd8a8', 'edgeLabelBackground':'#fff5e6'}}}%%
+flowchart TD
+    subgraph Mandatory[Push_Swap Mandatory Part]
+        direction TB
+        A1[Input Handling] --> A2[Parse Arguments]
+        A2 --> A3{Valid Input?}
+        A3 -->|Yes| A4[Initialize Stack A]
+        A3 -->|No| A5[Error Handling]
+        A4 --> A6{Stack Size?}
+        A6 -->|Size ≤ 3| A7[Basic Sort]
+        A6 -->|Size > 3| A8[Turk Algorithm]
+        A8 --> A9[Phase 1: Split to A/B]
+        A9 --> A10[Sort 3 Elements]
+        A10 --> A11[Phase 2: Cost Calculation]
+        A11 --> A12[Find Cheapest Node]
+        A12 --> A13[Execute Moves]
+        A13 --> A14{All Elements Processed?}
+        A14 -->|No| A11
+        A14 -->|Yes| A15[Final Rotations]
+        A15 --> A16[Output Moves]
+    end
+
+    subgraph Bonus[Checker Bonus Part]
+        direction TB
+        B1[Read Input] --> B2[Initialize Stacks]
+        B2 --> B3[Read Commands]
+        B3 --> B4[Execute Operation]
+        B4 --> B5{Valid Command?}
+        B5 -->|Yes| B6[Update Stacks]
+        B5 -->|No| B7[Error Handling]
+        B6 --> B8{More Commands?}
+        B8 -->|Yes| B3
+        B8 -->|No| B9[Check Sorted]
+        B9 --> B10{A Sorted & B Empty?}
+        B10 -->|Yes| B11[Output OK]
+        B10 -->|No| B12[Output KO]
+    end
+
+    subgraph Interaction
+        direction LR
+        C1[push_swap] -->|Generates| C2[Moves List]
+        C2 -->|Piped to| C3[Checker]
+        C3 -->|Validates| C4[Sorting Result]
+    end
+
+    classDef mandatory fill:#4d79ff,stroke:#333,color:white;
+    classDef bonus fill:#ff4d4d,stroke:#333,color:white;
+    classDef interaction fill:#4dff88,stroke:#333,color:#333;
+    
+    class Mandatory mandatory
+    class Bonus bonus
+    class Interaction interaction
+
+    style Mandatory stroke-width:2px
+    style Bonus stroke-width:2px
+    style Interaction stroke-dasharray: 5 5
+```
+----
+
+### chart of the Turk Algorithm mechanics
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff3e0', 'edgeLabelBackground':'#fffaf0'}}}%%
+flowchart TD
+    subgraph TurkAlgorithm["Mechanical Turk Algorithm"]
+        direction TB
+        
+        Start[("Start")] --> InitStacks
+        InitStacks[Initialize Stack A with input] --> Phase1
+        
+        subgraph Phase1["Phase 1: Strategic Splitting"]
+            direction TB
+            P1A{Push first 2 elements} -->|pb| P1B
+            P1B[Keep pushing elements from A to B] --> P1C{"Elements left in A ≤ 3?"}
+            P1C -->|No| P1B
+            P1C -->|Yes| P1D[Sort remaining 3 elements]
+        end
+
+        subgraph Phase2["Phase 2: Cost-Based Merging"]
+            direction TB
+            P2A[For each element in A] --> P2B
+            P2B[Find target position in B] --> P2C
+            P2C[Calculate rotation costs:\na_cost + b_cost - combined_moves] --> P2D
+            P2D[Select cheapest node] --> P2E
+            P2E[Execute optimal rotations:\nRR/RRR when possible] --> P2F
+            P2F[Push element to B] --> P2G{More in A?}
+            P2G -->|Yes| P2A
+            P2G -->|No| Phase3
+        end
+
+        subgraph Phase3["Phase 3: Final Merge"]
+            direction TB
+            P3A[Find target in A for each B element] --> P3B
+            P3B[Calculate reverse rotation costs] --> P3C
+            P3C[Push elements back to A] --> P3D
+            P3D[Align smallest element on top] --> End
+        end
+
+        Phase1 --> Phase2
+        Phase2 --> Phase3
+    end
+
+    classDef phase fill:#ffe0b2,stroke:#ffab40;
+    classDef decision fill:#c8e6c9,stroke:#2e7d32;
+    classDef operation fill:#bbdefb,stroke:#1976d2;
+    
+    class Phase1,Phase2,Phase3 phase
+    class P1C,P2G decision
+    class P1B,P1D,P2B,P2C,P2E,P2F,P3A,P3B,P3C,P3D operation
+
+    style TurkAlgorithm stroke-width:2px,stroke:#ef6c00
+```
+
+**Key Algorithm Components:**
+
+1. **Cost Calculation Formula:**
+```python
+Total Cost = (a_rotations + b_rotations) - combined_moves
+```
+- `a_rotations`: Rotations needed in stack A
+- `b_rotations`: Rotations needed in stack B
+- `combined_moves`: Simultaneous RR/RRR operations possible
+
+1. **Target Selection Logic:**
+```
+If element > max(B) → target = min(B)
+If element < min(B) → target = max(B)
+Else → closest smaller value in B
+```
+
+1. **Rotation Optimization:**
+- Prefer combined rotations (RR/RRR) when:
+  - Both elements above/below median
+  - Rotation directions match
+
+1. **Critical Path Highlights:**
+- **Smart Initial Split:** First 2 elements pushed without checks "this will prevemt segfault in bonus part;"
+- **Three Sort Magic:** Special optimized sort for last 3 elements
+- **Cost Matrix:** Maintains rotation cost for every element
+- **Reverse Merge:** Precision placement when moving back to A
+
+**Visual Guide:**
+- **Orange Boxes:** Main algorithm phases
+- **Green Diamonds:** Decision points
+- **Blue Rectangles:** Core operations
+- **Arrows:** Data flow direction
+
+This flowchart shows the algorithm's three-phase approach with cost optimization at its core, demonstrating why it's more efficient than traditional sorting methods for this constrained stack environment.
+
+---
+
 ### 🎭 The Mechanical Turk Algorithm
 Named after the 18th-century "automaton" chess player, this algorithm mimics strategic decision-making through **cost-based optimizations** and **chunking**.  
 Curious about the name? Check out this fascinating history! --> [Scam Or Not?](https://www.youtube.com/watch?v=Xosn4ManeD4) 🎪  
