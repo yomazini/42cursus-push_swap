@@ -530,3 +530,4 @@ valgrind --leak-check=full ./push_swap 42 21  # Zero leaks guaranteed
 ```
 
 *Made with 💖, ☕, and probably too many stack rotations! Remember: in Push_swap, we don't make mistakes, we have happy little sorting accidents! 🎨*  "deal with it; GL"
+
